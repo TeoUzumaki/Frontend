@@ -29,10 +29,15 @@
     const input = document.getElementById('reddit-url');
     const list = document.getElementById('link-list');
 
-    const token = localStorage.getItem('token'); // Assuming auth.js stores it here
-    const API_URL = 'https://my-node-backend-7qyb.onrender.com';
+    const token = localStorage.getItem('token'); // auth.js should store token here
+    const API_URL = 'https://my-node-backend-7qyb.onrender.com'; // <-- Update to your backend URL
 
-    // Load existing links from backend on page load
+    if (!token) {
+      alert('You must be logged in to see and add links.');
+      // Optionally redirect to login page here
+    }
+
+    // Load all shared links on page load
     document.addEventListener('DOMContentLoaded', () => {
       fetch(API_URL + '/links', {
         headers: {
@@ -44,14 +49,16 @@
         return res.json();
       })
       .then(links => {
+        list.innerHTML = ''; // clear list before adding
         links.forEach(addLink);
       })
       .catch(err => {
         console.error('Error fetching links:', err);
+        alert('Failed to load links, please try again.');
       });
     });
 
-    // Add new link
+    // Add new link handler
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const url = input.value.trim();
@@ -70,17 +77,19 @@
           addLink(url);
           input.value = '';
         } else {
-          console.error('Failed to save link');
           alert('Failed to save link');
+          console.error('Failed to save link', res.status);
         }
       })
       .catch(err => {
+        alert('Error saving link');
         console.error('Error:', err);
       });
     });
 
+    // Function to add link element to list
     function addLink(url) {
-      // Avoid duplicates in UI (optional)
+      // Avoid duplicates
       if ([...list.children].some(li => li.querySelector('a').href === url)) return;
 
       const li = document.createElement('li');
@@ -89,6 +98,7 @@
       a.href = url;
       a.textContent = url;
       a.target = '_blank';
+      a.rel = "noopener noreferrer";
 
       const btn = document.createElement('button');
       btn.textContent = '🗑️';
@@ -102,6 +112,7 @@
       list.appendChild(li);
     }
 
+    // Delete link handler
     function deleteLink(url, element) {
       fetch(API_URL + '/links', {
         method: 'DELETE',
@@ -115,15 +126,19 @@
         if (res.ok) {
           element.remove();
         } else {
-          console.error('Failed to delete link');
           alert('Failed to delete link');
+          console.error('Failed to delete link', res.status);
         }
       })
-      .catch(err => console.error('Error:', err));
+      .catch(err => {
+        alert('Error deleting link');
+        console.error('Error:', err);
+      });
     }
   </script>
 </body>
 </html>
+
 
 
 
