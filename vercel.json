@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/connections", "destination": "/connections.html" },
+    { "source": "/pika", "destination": "/pika.html" },
+    { "source": "/reddit", "destination": "/reddit.html" },
+    { "source": "/settings", "destination": "/settings.html" }
+  ],
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/dashboard.html", "destination": "/dashboard", "permanent": true },
+    { "source": "/about.html", "destination": "/about", "permanent": true },
+    { "source": "/connections.html", "destination": "/connections", "permanent": true },
+    { "source": "/pika.html", "destination": "/pika", "permanent": true },
+    { "source": "/reddit.html", "destination": "/reddit", "permanent": true },
+    { "source": "/settings.html", "destination": "/settings", "permanent": true }
+  ]
+}
