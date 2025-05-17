@@ -1,0 +1,225 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark {
+    background-color: #121212;
+    color: #f4f4f9;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    background-color: #333;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.header nav a:hover {
+    background-color: #5e3754;
+    color: white;
+}
+
+.header .logout {
+    background-color: #211a49;
+    padding: 8px 16px;
+    border-radius: 25px;
+}
+
+.header .logout:hover {
+    background-color: #3f234b;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #333;
+    color: white;
+    width: 250px;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #5f4c75;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.main-content h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Stats Section */
+.overview {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+    width: 30%;
+}
+
+body.dark .stat-item {
+    background: #444;
+    color: white;
+}
+
+.stat-item h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.stat-item p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+}
+
+body.dark .footer {
+    background-color: #222;
+}
+
+/* Button Styling */
+.btn {
+    background-color: #30204d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #582f63;
+}
+
+/* Sidebar Dropdown */
+.sidebar-dropdown {
+  position: relative;
+}
+
+.sidebar-dropdown-content {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.sidebar-dropdown.show .sidebar-dropdown-content {
+  display: flex;
+}
+
+
+/* -------------------------------
+   ✅ Mobile Styles (Responsive)
+-------------------------------- */
+@media (max-width: 768px) {
+    /* Stack header layout on small screens */
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .header nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .header nav a {
+        margin: 8px 0;
+        width: 100%;
+        text-align: left;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        padding: 10px;
+        box-shadow: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .overview {
+        flex-direction: column;
+    }
+
+    .stat-item {
+        width: 100%;
+    }
+}
+

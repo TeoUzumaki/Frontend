@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Favorite Reddit Posts</title>
+  <link rel="stylesheet" href="reddit.css" />
+  <script src="auth.js" defer></script>
+  <script src="reddit.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+    <h1>📌 My Favorite Reddit Posts</h1>
+
+    <form id="link-form">
+      <input type="url" id="reddit-url" placeholder="Paste Reddit post URL..." required />
+      <button type="submit">Add Link</button>
+    </form>
+
+    <ul id="link-list" class="link-list">
+      <!-- Links will be dynamically loaded here -->
+    </ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('link-form');
+    const input = document.getElementById('reddit-url');
+    const list = document.getElementById('link-list');
+
+    const token = localStorage.getItem('token'); // Assuming auth.js stores it here
+    const API_URL = 'https://my-node-backend-7qyb.onrender.com';
+
+    // Load existing links from backend on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch(API_URL + '/links', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch links');
+        return res.json();
+      })
+      .then(links => {
+        links.forEach(addLink);
+      })
+      .catch(err => {
+        console.error('Error fetching links:', err);
+      });
+    });
+
+    // Add new link
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = input.value.trim();
+      if (!url) return;
+
+      fetch(API_URL + '/links', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ url })
+      })
+      .then(res => {
+        if (res.ok) {
+          addLink(url);
+          input.value = '';
+        } else {
+          console.error('Failed to save link');
+          alert('Failed to save link');
+        }
+      })
+      .catch(err => {
+        console.error('Error:', err);
+      });
+    });
+
+    function addLink(url) {
+      // Avoid duplicates in UI (optional)
+      if ([...list.children].some(li => li.querySelector('a').href === url)) return;
+
+      const li = document.createElement('li');
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.textContent = url;
+      a.target = '_blank';
+
+      const btn = document.createElement('button');
+      btn.textContent = '🗑️';
+      btn.classList.add('delete-btn');
+      btn.onclick = () => {
+        deleteLink(url, li);
+      };
+
+      li.appendChild(a);
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+
+    function deleteLink(url, element) {
+      fetch(API_URL + '/links', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ url })
+      })
+      .then(res => {
+        if (res.ok) {
+          element.remove();
+        } else {
+          console.error('Failed to delete link');
+          alert('Failed to delete link');
+        }
+      })
+      .catch(err => console.error('Error:', err));
+    }
+  </script>
+</body>
+</html>
+
+
+
+

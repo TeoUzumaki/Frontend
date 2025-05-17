@@ -1,0 +1,65 @@
+,<head>
+    <script src="auth.js" defer></script>    
+</head>
+<body>
+    <div class="loading">
+        <img src="http://a.top4top.net/p_1990j031.gif" alt="Loading">
+    </div>
+    <div class="mouse original"></div>
+
+    <!-- Back to Dashboard Button -->
+    <button class="back-button" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+
+    <script>
+        // Logout function
+        function logout() {
+          localStorage.removeItem("loggedIn");  // Clear login status
+          window.location.href = "index.html";   // Redirect to login
+        }
+    </script>
+</body>
+
+
+
+<style>
+    body {
+        background-color: #ffffff; /* Light orange */
+        margin: 0; /* Removes default margin */
+        height: 100vh; /* Ensures full viewport height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loading {
+        position: fixed;
+        top: 50%;
+        left: 47%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .loading img {
+        width: 150%;
+        height: auto;
+    }
+
+    /* Back Button Styling */
+    .back-button {
+        position: fixed;
+        bottom: 20px;
+        padding: 10px 20px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .back-button:hover {
+        background-color: #333;
+    }
+</style>
+
+

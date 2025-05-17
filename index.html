@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form | brandonNmaggie</title>
+  <link rel="stylesheet" href="login.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="wrapper">
+    <form id="loginForm">
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="text" id="username" placeholder="Username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <div class="remember-forgot">
+        <label><input type="checkbox">Remember Me</label>
+        <a href="#">Request Login Credentials</a>
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>SERVER/LOGIN STATUS</p>
+      </div>
+      <div class="status-report">
+        <p>ONLINE</p>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginForm = document.getElementById("loginForm");
+  
+      loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+  
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+  
+        const baseURL = 'https://my-node-backend-7qyb.onrender.com';
+  
+        try {
+          const response = await fetch(`${baseURL}/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+          });
+  
+          if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.message || "Invalid credentials");
+            return;
+          }
+  
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          window.location.href = 'dashboard.html';
+        } catch (error) {
+          console.error('Error logging in:', error);
+          alert("Couldn't reach the server. Make sure it's running and publicly accessible.");
+        }
+      });
+    });
+  </script>    
+</body>
+</html>
+
