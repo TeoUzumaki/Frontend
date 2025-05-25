@@ -180,6 +180,17 @@ body.dark .footer {
   .footer {
     margin-left: 0;
   }
+
+  .sidebar-dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+ .sidebar-dropdown.show .sidebar-dropdown-content {
+   display: flex;
+ }
 }
 
 
