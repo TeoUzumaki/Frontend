@@ -183,14 +183,19 @@ body.dark .footer {
 
   .sidebar-dropdown-content {
     display: none;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
+    /* add styling for dropdown, e.g. position, background */
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    margin-top: 5px;
+    min-width: 150px;
   }
 
- .sidebar-dropdown.show .sidebar-dropdown-content {
-   display: flex;
+ .sidebar-dropdown-content.show {
+   display: block;
  }
+
 }
 
 
