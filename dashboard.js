@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Top-right dropdown toggle
+    // Top-right "Menu ▾" dropdown toggle
     const dropdownToggle = document.getElementById("dropdownToggle");
     const dropdown = document.querySelector(".dropdown");
 
@@ -47,16 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.classList.toggle("show");
         });
 
-        document.addEventListener("click", () => {
-            dropdown.classList.remove("show");
+        document.addEventListener("click", (e) => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove("show");
+            }
         });
 
-        dropdown.addEventListener("click", (e) => {
-            e.stopPropagation();
-        });
+        dropdown.addEventListener("click", (e) => e.stopPropagation());
     }
 
-    // Sidebar dropdown toggle
+    // Sidebar "Sections ▾" dropdown toggle
     const sidebarDropdownToggle = document.getElementById("sidebarDropdownToggle");
     const sidebarDropdown = document.querySelector(".sidebar-dropdown");
 
@@ -66,14 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
             sidebarDropdown.classList.toggle("show");
         });
 
-        document.addEventListener("click", () => {
-            sidebarDropdown.classList.remove("show");
+        document.addEventListener("click", (e) => {
+            if (!sidebarDropdown.contains(e.target)) {
+                sidebarDropdown.classList.remove("show");
+            }
         });
 
-        sidebarDropdown.addEventListener("click", (e) => {
-            e.stopPropagation(); // prevent inside clicks from closing it
-        });
+        sidebarDropdown.addEventListener("click", (e) => e.stopPropagation());
     }
 });
+
 
 
