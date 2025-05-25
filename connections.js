@@ -6,54 +6,54 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 let tiles = [];
 
-// Define new groups and their color classes
+// ✅ Define new groups and their color classes
 const groups = [
   {
-    words: ['Pluto', 'Mars', 'Earth', 'Venus'],
+    words: ['Crumble', 'Melt', 'Shred', 'Slice'],
     className: 'correct1'
   },
   {
-    words: ['Lion', 'Tiger', 'Leopard', 'Cheetah'],
+    words: ['Blanket', 'Broad', 'General', 'Sweeping'],
     className: 'correct2'
   },
   {
-    words: ['Oxygen', 'Helium', 'Carbon', 'Nitrogen'],
+    words: ['Magnum', 'Monk', 'Shaft', 'Tracy'],
     className: 'correct3'
   },
   {
-    words: ['Shakespeare', 'Hemingway', 'Dickens', 'Austen'],
+    words: ['Command', 'Control', 'Option', 'Shift'],
     className: 'correct4'
   }
 ];
 
-// Helper function to determine the title of the group based on its words
+// ✅ Helper function to determine the title of the group based on its words
 function getGroupTitle(words) {
-  if (words.includes('Pluto') || words.includes('Mars') || words.includes('Earth') || words.includes('Venus')) {
-    return 'Planets in Our Solar System';
+  if (words.includes('Crumble') && words.includes('Melt')) {
+    return 'WAYS TO PREPARE CHEESE';
   }
-  if (words.includes('Lion') || words.includes('Tiger') || words.includes('Leopard') || words.includes('Cheetah')) {
-    return 'Big Cats';
+  if (words.includes('Blanket') && words.includes('General')) {
+    return 'UNIVERSAL';
   }
-  if (words.includes('Oxygen') || words.includes('Helium') || words.includes('Carbon') || words.includes('Nitrogen')) {
-    return 'Chemical Elements';
+  if (words.includes('Magnum') && words.includes('Monk')) {
+    return 'TITULAR FICTIONAL DETECTIVES';
   }
-  if (words.includes('Shakespeare') || words.includes('Hemingway') || words.includes('Dickens') || words.includes('Austen')) {
-    return 'Famous Authors';
+  if (words.includes('Command') && words.includes('Option')) {
+    return 'MAC KEYBOARD KEYS';
   }
   return 'Unknown Group';
 }
 
-// Apply saved theme from localStorage
+// ✅ Apply saved theme from localStorage
 document.addEventListener("DOMContentLoaded", () => { 
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
   }
 });
 
-// Flatten all words into one array
+// ✅ Flatten all words into one array
 let allWords = groups.flatMap(group => group.words);
 
-// Shuffle using Fisher–Yates algorithm
+// ✅ Shuffle using Fisher–Yates algorithm
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -63,7 +63,7 @@ function shuffle(array) {
 
 shuffle(allWords);
 
-// Build the tile grid dynamically
+// ✅ Build the tile grid dynamically
 allWords.forEach(word => {
   const tile = document.createElement('div');
   tile.className = 'tile';
@@ -105,34 +105,27 @@ submitBtn.addEventListener('click', () => {
     selected.forEach(tile => {
       tile.classList.remove('selected');
       tile.classList.add(match.className, 'revealed');
-      
-      // Remove the tile from the grid
-      tile.style.display = 'none'; // This hides the tile from the grid
+      tile.style.display = 'none';
     });
 
     message.textContent = `✅ Group found!`;
     solvedGroups.add(matchIndex);
 
-    // Get the group title using the helper function
     const groupTitle = getGroupTitle(selectedWords);
 
-    // Display result box
     const resultBox = document.createElement('div');
     resultBox.className = `result-box ${match.className}`;
 
-    // Title for the result box (group name)
     const groupLabel = document.createElement('div');
-    groupLabel.textContent = groupTitle; // Use the dynamic group title
+    groupLabel.textContent = groupTitle;
     resultBox.appendChild(groupLabel);
 
-    // Create list of selected words
     const wordList = document.createElement('div');
     wordList.className = 'result-words';
 
-    // Add each selected word with the correct color class (based on group)
     selectedWords.forEach(word => {
       const span = document.createElement('div');
-      span.className = `word ${match.className}`; // Add both 'word' and group class (e.g., 'correct1')
+      span.className = `word ${match.className}`;
       span.textContent = word;
       wordList.appendChild(span);
     });
