@@ -7,13 +7,13 @@
 
 body {
   background-color: #f4f4f9;
-  color: #ff00ea;
+  color: #7b7c91;
   transition: background-color 0.3s, color 0.3s;
 }
 
 body.dark {
   background-color: #121212;
-  color: #f007a2;
+  color: #746b8d;
 }
 
 .settings-wrapper {
@@ -39,7 +39,7 @@ body.dark {
   margin-left: 20px;
   text-decoration: none;
   font-weight: 600;
-  color: #fc00da;
+  color: #786d91;
   transition: 0.3s;
 }
 
