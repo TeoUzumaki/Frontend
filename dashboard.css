@@ -180,22 +180,7 @@ body.dark .footer {
   .footer {
     margin-left: 0;
   }
-
-  .sidebar-dropdown-content {
-    display: none;
-    /* add styling for dropdown, e.g. position, background */
-    position: absolute;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 100;
-    margin-top: 5px;
-    min-width: 150px;
-  }
-
- .sidebar-dropdown-content.show {
-   display: block;
- }
-
 }
+
 
 
