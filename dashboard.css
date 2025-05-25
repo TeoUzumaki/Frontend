@@ -60,7 +60,32 @@ body.dark {
   background-color: #582f63;
 }
 
-.sidebar-dropdown-content,
+/* Sidebar Dropdown */
+.sidebar-dropdown-content {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #444;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.sidebar-dropdown.show .sidebar-dropdown-content {
+  display: flex;
+}
+
+.sidebar-dropdown-content button.btn {
+  background-color: #5e4d7a;
+  border-radius: 15px;
+  padding: 8px 15px;
+}
+
+.sidebar-dropdown-content button.btn:hover {
+  background-color: #7a63a0;
+}
+
+/* Sidebar Actions */
 .sidebar-actions {
   display: flex;
   flex-direction: column;
