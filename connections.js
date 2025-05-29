@@ -9,36 +9,35 @@ let tiles = [];
 // ✅ Define new groups and their color classes
 const groups = [
   {
-    words: ['Crumble', 'Melt', 'Shred', 'Slice'],
+    words: ['Applaud', 'Hail', 'Honor', 'Praise'],
     className: 'correct1'
   },
   {
-    words: ['Blanket', 'Broad', 'General', 'Sweeping'],
+    words: ['Apt', 'Fit', 'Proper', 'Right'],
     className: 'correct2'
   },
   {
-    words: ['Magnum', 'Monk', 'Shaft', 'Tracy'],
+    words: ['Frost', 'Glaze', 'Powder', 'Sprinkle'],
     className: 'correct3'
   },
   {
-    words: ['Command', 'Control', 'Option', 'Shift'],
+    words: ['Enthusiast', 'Muscular', 'Nude', 'Polish'],
     className: 'correct4'
   }
 ];
 
-// ✅ Helper function to determine the title of the group based on its words
 function getGroupTitle(words) {
-  if (words.includes('Crumble') && words.includes('Melt')) {
-    return 'WAYS TO PREPARE CHEESE';
+  if (words.includes('Applaud') && words.includes('Hail')) {
+    return 'SALUTE';
   }
-  if (words.includes('Blanket') && words.includes('General')) {
-    return 'UNIVERSAL';
+  if (words.includes('Apt') && words.includes('Proper')) {
+    return 'SUITABLE';
   }
-  if (words.includes('Magnum') && words.includes('Monk')) {
-    return 'TITULAR FICTIONAL DETECTIVES';
+  if (words.includes('Frost') && words.includes('Glaze')) {
+    return 'VERBS FOR FINISHING DONUTS';
   }
-  if (words.includes('Command') && words.includes('Option')) {
-    return 'MAC KEYBOARD KEYS';
+  if (words.includes('Enthusiast') && words.includes('Muscular')) {
+    return 'WHAT “BUFF” MIGHT MEAN';
   }
   return 'Unknown Group';
 }
