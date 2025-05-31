@@ -6,38 +6,38 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 let tiles = [];
 
-// ✅ Define new groups and their color classes
+// ✅ Define new groups and their color classes with harder words
 const groups = [
   {
-    words: ['Applaud', 'Hail', 'Honor', 'Praise'],
+    words: ['Effervescent', 'Resplendent', 'Opulent', 'Luminous'],
     className: 'correct1'
   },
   {
-    words: ['Apt', 'Fit', 'Proper', 'Right'],
+    words: ['Euphoria', 'Exhilaration', 'Rapture', 'Ecstasy'],
     className: 'correct2'
   },
   {
-    words: ['Frost', 'Glaze', 'Powder', 'Sprinkle'],
+    words: ['Sibilant', 'Susurrous', 'Mellifluous', 'Euphonious'],
     className: 'correct3'
   },
   {
-    words: ['Enthusiast', 'Muscular', 'Nude', 'Polish'],
+    words: ['Halcyon', 'Elysian', 'Utopian', 'Arcadian'],
     className: 'correct4'
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('Applaud') && words.includes('Hail')) {
-    return 'SALUTE';
+  if (words.includes('Effervescent') && words.includes('Resplendent')) {
+    return 'WORDS DESCRIBING RADIANT BEAUTY';
   }
-  if (words.includes('Apt') && words.includes('Proper')) {
-    return 'SUITABLE';
+  if (words.includes('Euphoria') && words.includes('Rapture')) {
+    return 'WORDS FOR INTENSE HAPPINESS';
   }
-  if (words.includes('Frost') && words.includes('Glaze')) {
-    return 'VERBS FOR FINISHING DONUTS';
+  if (words.includes('Sibilant') && words.includes('Mellifluous')) {
+    return 'TERMS FOR PLEASING SOUNDS';
   }
-  if (words.includes('Enthusiast') && words.includes('Muscular')) {
-    return 'WHAT “BUFF” MIGHT MEAN';
+  if (words.includes('Halcyon') && words.includes('Utopian')) {
+    return 'WORDS FOR IDEALISTIC NOTIONS';
   }
   return 'Unknown Group';
 }
