@@ -37,6 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Chatbot button redirection (NEW)
+    const chatbotBtn = document.getElementById("chatbotBtn");
+    if (chatbotBtn) {
+        chatbotBtn.addEventListener("click", () => {
+            window.location.href = "gpt.html";
+        });
+    }
+
     // Top-right "Menu ▾" dropdown toggle
     const dropdownToggle = document.getElementById("dropdownToggle");
     const dropdown = document.querySelector(".dropdown");
@@ -75,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sidebarDropdown.addEventListener("click", (e) => e.stopPropagation());
     }
 });
+
 
 
 

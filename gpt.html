@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GPT Chatbot</title>
+  <link rel="stylesheet" href="gpt.css" />
+  <script src="gpt.js" defer></script>
+  <script src="auth.js" defer></script> <!-- JWT auth check -->
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🤖 Chat with GPT</h1>
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+    </header>
+
+    <textarea id="prompt" rows="4" placeholder="Type your message..."></textarea>
+    <button onclick="sendMessage()">Send</button>
+    <div id="response"></div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const prompt = document.getElementById('prompt').value;
+      const responseBox = document.getElementById('response');
+      responseBox.textContent = "⌛ Loading...";
+
+      const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: prompt }),
+      });
+
+      const data = await res.json();
+      responseBox.textContent = data.reply || "⚠️ Something went wrong.";
+    }
+  </script>
+</body>
+</html>
+
