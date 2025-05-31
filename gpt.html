@@ -6,7 +6,7 @@
   <title>GPT Chatbot</title>
   <link rel="stylesheet" href="gpt.css" />
   <script src="gpt.js" defer></script>
-  <script src="auth.js" defer></script> <!-- JWT auth check -->
+  <script src="auth.js" defer></script>
 </head>
 <body>
   <div class="container">
@@ -16,17 +16,16 @@
     </header>
 
     <textarea id="prompt" rows="4" placeholder="Type your message..."></textarea>
+    
+    <!-- 👇 Image input -->
+    <input type="file" id="imageInput" accept=".png,.jpg,.jpeg,.webp" />
+    
+    <button id="sendBtn">Send</button>
 
-    <!-- Image upload input -->
-    <input type="file" id="imageInput" accept=".png,.jpg,.jpeg,.webp" style="margin-bottom: 1rem;" />
-
-    <!-- Image preview -->
-    <img id="preview" style="max-width: 100%; display: none; margin-bottom: 1rem;" />
-
-    <button onclick="sendMessage()">Send</button>
     <div id="response"></div>
   </div>
 </body>
 </html>
+
 
 

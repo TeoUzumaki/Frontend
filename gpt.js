@@ -1,60 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Theme toggle support (if used elsewhere)
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark");
-  }
-
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
-    });
-  }
+  const sendBtn = document.getElementById("sendBtn");
+  sendBtn.addEventListener("click", sendMessage);
 });
 
-// Handle send message + image
 async function sendMessage() {
-  const prompt = document.getElementById('prompt').value;
+  const prompt = document.getElementById('prompt').value.trim();
   const imageInput = document.getElementById('imageInput');
   const responseBox = document.getElementById('response');
-  const preview = document.getElementById('preview');
-  responseBox.textContent = "⌛ Loading...";
 
-  let imageBase64 = null;
-
-  if (imageInput.files.length > 0) {
-    const file = imageInput.files[0];
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
-
-    if (!allowedTypes.includes(file.type)) {
-      responseBox.textContent = "⚠️ Unsupported image format.";
-      return;
-    }
-
-    imageBase64 = await toBase64(file);
-    preview.src = imageBase64;
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
+  if (!prompt && !imageInput.files.length) {
+    responseBox.textContent = "⚠️ Please enter a message or upload an image.";
+    return;
   }
 
-  const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: prompt, image: imageBase64 }),
-  });
+  responseBox.textContent = "⌛ Loading...";
 
-  const data = await res.json();
-  responseBox.textContent = data.reply || "⚠️ Something went wrong.";
+  const formData = new FormData();
+  formData.append("message", prompt);
+  if (imageInput.files.length > 0) {
+    formData.append("image", imageInput.files[0]);
+  }
+
+  try {
+    const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+    responseBox.textContent = data.reply || "⚠️ No reply received.";
+  } catch (err) {
+    console.error(err);
+    responseBox.textContent = "❌ Error contacting server.";
+  }
 }
 
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
   
