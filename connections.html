@@ -4,22 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Connections Game</title>
-  <button class="back-button" onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
   <link rel="stylesheet" href="connections.css" />
   <script src="auth.js" defer></script>
+  <script src="connections.js" defer></script>
 </head>
 <body>
-  <h1>Connections</h1>
-  <div id="grid" class="grid"></div>
-
-  <button id="submit">Submit Selection</button>
-  <p id="message" class="footer">Select 4 words that are connected.</p>
-
-  <div id="results"></div>
-
-  <script src="connections.js"></script>
+  <nav class="navbar">
+    <button class="nav-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+    <button class="nav-btn right" id="theme-toggle">🌓</button>
+  </nav>
+  <main class="container">
+    <h1>Connections</h1>
+    <div class="card">
+      <div id="grid" class="grid"></div>
+      <button id="submit" class="action-btn">Submit Selection</button>
+      <div id="message" class="footer">Select <span class="highlight">4</span> words that are connected.</div>
+      <div id="results"></div>
+    </div>
+  </main>
 </body>
 </html>
-
 
 

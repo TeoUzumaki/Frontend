@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Games</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="games.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <header>
+        <button class="dashboard-btn" onclick="location.href='dashboard.html'" title="Back to Dashboard">← Dashboard</button>
+        <h1>🎮 My Games</h1>
+        <div class="settings">
+            <button id="settingsBtn" title="Settings">
+                <span class="icon">⚙️</span>
+            </button>
+            <div id="settingsMenu" class="settings-menu">
+                <label>
+                    <span>Theme:</span>
+                    <select id="themeSelect">
+                        <option value="default">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </header>
+    <main>
+        <ul id="gameList" class="game-list">
+            <!-- Games will be injected here by JS -->
+        </ul>
+    </main>
+    <script src="auth.js"></script>
+    <script src="games.js"></script>
+</body>
+</html>

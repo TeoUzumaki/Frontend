@@ -5,35 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPT Chatbot</title>
   <link rel="stylesheet" href="gpt.css" />
-  <script src="gpt.js" defer></script>
   <script src="auth.js" defer></script> <!-- JWT auth check -->
+  <script src="gpt.js" defer></script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>🤖 Chatbot by Brandon</h1>
-      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+      <div class="header-actions">
+        <a href="dashboard.html" class="back-link">← Dashboard</a>
+        <button id="themeToggle" class="theme-toggle" title="Toggle Theme">🌓</button>
+      </div>
     </header>
-
     <textarea id="prompt" rows="4" placeholder="Type your message..."></textarea>
-    <button onclick="sendMessage()">Send</button>
+    <button id="sendBtn">Send</button>
     <div id="response"></div>
   </div>
-
   <script>
+    // Theme Support (like your other pages)
+    function setTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
+    }
+    // On load, set theme from localStorage (default to light)
+    document.addEventListener("DOMContentLoaded", () => {
+      setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "default");
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const newTheme = document.body.classList.contains("dark") ? "default" : "dark";
+        setTheme(newTheme);
+      });
+      // Send button event
+      document.getElementById("sendBtn").addEventListener("click", sendMessage);
+    });
+    // Chatbot logic
     async function sendMessage() {
       const prompt = document.getElementById('prompt').value;
       const responseBox = document.getElementById('response');
       responseBox.textContent = "⌛ Loading...";
-
-      const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: prompt }),
-      });
-
-      const data = await res.json();
-      responseBox.textContent = data.reply || "⚠️ Something went wrong.";
+      try {
+        const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: prompt }),
+        });
+        const data = await res.json();
+        responseBox.textContent = data.reply || "⚠️ Something went wrong.";
+      } catch (e) {
+        responseBox.textContent = "⚠️ Unable to connect to chatbot server.";
+      }
     }
   </script>
 </body>

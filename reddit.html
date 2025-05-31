@@ -10,132 +10,18 @@
 </head>
 <body>
   <div class="container">
-    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
-
-    <h1>📌 My Favorite Reddit Posts</h1>
-
-    <form id="link-form">
+    <header>
+      <a href="dashboard.html" class="back-link">← Dashboard</a>
+      <h1>📌 My Favorite Reddit Posts</h1>
+    </header>
+    <form id="link-form" autocomplete="off">
       <input type="url" id="reddit-url" placeholder="Paste Reddit post URL..." required />
       <button type="submit">Add Link</button>
     </form>
-
     <ul id="link-list" class="link-list">
       <!-- Links will be dynamically loaded here -->
     </ul>
   </div>
-
-  <script>
-    const form = document.getElementById('link-form');
-    const input = document.getElementById('reddit-url');
-    const list = document.getElementById('link-list');
-
-    const token = localStorage.getItem('token'); // auth.js should store token here
-    const API_URL = 'https://my-node-backend-7qyb.onrender.com'; // <-- Update to your backend URL
-
-    if (!token) {
-      alert('You must be logged in to see and add links.');
-      // Optionally redirect to login page here
-    }
-
-    // Load all shared links on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch(API_URL + '/links', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch links');
-        return res.json();
-      })
-      .then(links => {
-        list.innerHTML = ''; // clear list before adding
-        links.forEach(addLink);
-      })
-      .catch(err => {
-        console.error('Error fetching links:', err);
-        alert('Failed to load links, please try again.');
-      });
-    });
-
-    // Add new link handler
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const url = input.value.trim();
-      if (!url) return;
-
-      fetch(API_URL + '/links', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ url })
-      })
-      .then(res => {
-        if (res.ok) {
-          addLink(url);
-          input.value = '';
-        } else {
-          alert('Failed to save link');
-          console.error('Failed to save link', res.status);
-        }
-      })
-      .catch(err => {
-        alert('Error saving link');
-        console.error('Error:', err);
-      });
-    });
-
-    // Function to add link element to list
-    function addLink(url) {
-      // Avoid duplicates
-      if ([...list.children].some(li => li.querySelector('a').href === url)) return;
-
-      const li = document.createElement('li');
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.textContent = url;
-      a.target = '_blank';
-      a.rel = "noopener noreferrer";
-
-      const btn = document.createElement('button');
-      btn.textContent = '🗑️';
-      btn.classList.add('delete-btn');
-      btn.onclick = () => {
-        deleteLink(url, li);
-      };
-
-      li.appendChild(a);
-      li.appendChild(btn);
-      list.appendChild(li);
-    }
-
-    // Delete link handler
-    function deleteLink(url, element) {
-      fetch(API_URL + '/links', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ url })
-      })
-      .then(res => {
-        if (res.ok) {
-          element.remove();
-        } else {
-          alert('Failed to delete link');
-          console.error('Failed to delete link', res.status);
-        }
-      })
-      .catch(err => {
-        alert('Error deleting link');
-        console.error('Error:', err);
-      });
-    }
-  </script>
 </body>
 </html>
 

@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameBtn = document.getElementById("gameBtn");
     if (gameBtn) {
         gameBtn.addEventListener("click", () => {
-            window.location.href = "connections.html";
+            window.location.href = "games.html";
         });
     }
 
