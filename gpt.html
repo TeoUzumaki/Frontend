@@ -16,26 +16,17 @@
     </header>
 
     <textarea id="prompt" rows="4" placeholder="Type your message..."></textarea>
+
+    <!-- Image upload input -->
+    <input type="file" id="imageInput" accept=".png,.jpg,.jpeg,.webp" style="margin-bottom: 1rem;" />
+
+    <!-- Image preview -->
+    <img id="preview" style="max-width: 100%; display: none; margin-bottom: 1rem;" />
+
     <button onclick="sendMessage()">Send</button>
     <div id="response"></div>
   </div>
-
-  <script>
-    async function sendMessage() {
-      const prompt = document.getElementById('prompt').value;
-      const responseBox = document.getElementById('response');
-      responseBox.textContent = "⌛ Loading...";
-
-      const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: prompt }),
-      });
-
-      const data = await res.json();
-      responseBox.textContent = data.reply || "⚠️ Something went wrong.";
-    }
-  </script>
 </body>
 </html>
+
 
