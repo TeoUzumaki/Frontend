@@ -1,4 +1,4 @@
-/* Base styles for both themes */
+/* Base (Dark Theme) Styles */
 body {
   margin: 0;
   padding: 2rem;
@@ -7,6 +7,8 @@ body {
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
+  background: radial-gradient(ellipse at top, #0f0f0f 0%, #050505 100%);
+  color: #eee;
   transition: background 0.3s, color 0.3s;
 }
 
@@ -15,6 +17,8 @@ body {
   width: 100%;
   border-radius: 12px;
   padding: 2rem;
+  background: #151515;
+  border: 1px solid #333;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   transition: background 0.3s, border 0.3s, box-shadow 0.3s;
 }
@@ -24,12 +28,14 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  color: #0ff;
   transition: color 0.3s;
 }
 
 h1 {
   font-size: 1.8rem;
   margin: 0;
+  color: #0ff;
   transition: color 0.3s;
 }
 
@@ -38,8 +44,14 @@ h1 {
   border-radius: 6px;
   padding: 6px 10px;
   text-decoration: none;
-  border: 1px solid;
+  border: 1px solid #0ff;
+  color: #0ff;
   transition: background 0.2s ease, color 0.2s ease;
+}
+
+.back-link:hover {
+  background: #0ff;
+  color: #000;
 }
 
 /* Textarea and button */
@@ -51,14 +63,15 @@ textarea {
   margin-bottom: 1rem;
   outline: none;
   resize: vertical;
-  border: 1px solid;
+  background: #222;
+  color: #eee;
+  border: 1px solid #444;
   transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 textarea:focus {
-  box-shadow: 0 0 5px;
-  outline: none;
-  transition: box-shadow 0.3s;
+  border-color: #0ff;
+  box-shadow: 0 0 5px #0ff;
 }
 
 button {
@@ -69,7 +82,14 @@ button {
   border-radius: 8px;
   cursor: pointer;
   border: none;
+  background: linear-gradient(135deg, #0ff, #08f);
+  color: #000;
   transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #0df, #0af);
+  transform: scale(1.02);
 }
 
 /* Response box */
@@ -79,109 +99,11 @@ button {
   padding: 1rem;
   min-height: 100px;
   white-space: pre-wrap;
-  border: 1px solid;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #0ff;
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Dark Theme */
-body.dark {
-  background: radial-gradient(ellipse at top, #0f0f0f 0%, #050505 100%);
-  color: #eee;
-}
 
-body.dark .container {
-  background: #151515;
-  border: 1px solid #333;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-}
-
-body.dark header,
-body.dark h1,
-body.dark .back-link {
-  color: #0ff;
-  border-color: #0ff;
-}
-
-body.dark .back-link:hover {
-  background: #0ff;
-  color: #000;
-}
-
-body.dark textarea {
-  background: #222;
-  color: #eee;
-  border-color: #444;
-}
-
-body.dark textarea:focus {
-  border-color: #0ff;
-  box-shadow: 0 0 5px #0ff;
-}
-
-body.dark button {
-  background: linear-gradient(135deg, #0ff, #08f);
-  color: #000;
-}
-
-body.dark button:hover {
-  background: linear-gradient(135deg, #0df, #0af);
-  transform: scale(1.02);
-}
-
-body.dark #response {
-  background: #1a1a1a;
-  border-color: #333;
-  color: #0ff;
-}
-
-/* Light Theme */
-body.light {
-  background: #f5f7fa;
-  color: #222;
-}
-
-body.light .container {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 20px rgba(0, 136, 255, 0.2);
-}
-
-body.light header,
-body.light h1,
-body.light .back-link {
-  color: #0088ff;
-  border-color: #0088ff;
-}
-
-body.light .back-link:hover {
-  background: #0088ff;
-  color: #fff;
-}
-
-body.light textarea {
-  background: #fff;
-  color: #222;
-  border-color: #ccc;
-}
-
-body.light textarea:focus {
-  border-color: #0088ff;
-  box-shadow: 0 0 5px #0088ff;
-}
-
-body.light button {
-  background: linear-gradient(135deg, #0088ff, #005fcc);
-  color: #fff;
-}
-
-body.light button:hover {
-  background: linear-gradient(135deg, #005fcc, #004aa6);
-  transform: scale(1.02);
-}
-
-body.light #response {
-  background: #f0f4ff;
-  border-color: #cce0ff;
-  color: #005fcc;
-}
 
