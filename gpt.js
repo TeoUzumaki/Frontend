@@ -1,40 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sendBtn = document.getElementById("sendBtn");
-  const prompt = document.getElementById("prompt");
-  const imageInput = document.getElementById("imageInput");
-  const responseBox = document.getElementById("response");
-
-  sendBtn.addEventListener("click", async () => {
-    const promptValue = prompt.value.trim();
-
-    if (!promptValue && imageInput.files.length === 0) {
-      responseBox.textContent = "⚠️ Please enter a message or upload an image.";
-      return;
+    // Apply saved theme from localStorage
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
     }
 
-    responseBox.textContent = "⌛ Loading...";
-
-    const formData = new FormData();
-    formData.append("message", promptValue);
-    if (imageInput.files.length > 0) {
-      formData.append("image", imageInput.files[0]);
+    // Theme toggle button (if exists in settings page)
+    const themeToggle = document.getElementById("themeToggle");
+    if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+        });
     }
-
-    try {
-      const res = await fetch('https://gptbot-mohk.onrender.com/chat', {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await res.json();
-      responseBox.textContent = data.reply || "⚠️ No reply received.";
-    } catch (err) {
-      console.error(err);
-      responseBox.textContent = "❌ Error contacting server.";
-    }
-  });
-});
-
-
-
-  
+});    

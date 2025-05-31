@@ -105,13 +105,5 @@ button:hover {
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Image preview */
-#preview {
-  max-height: 200px;
-  border-radius: 10px;
-  border: 1px solid #444;
-}
-
-
 
 
