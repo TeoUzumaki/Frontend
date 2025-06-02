@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wordl Game</title>
+  <link rel="stylesheet" href="wordl.css" />
+  <script src="wordl.js" defer></script>
+</head>
+<body>
+  <nav class="navbar">
+    <button class="nav-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+    <button class="nav-btn right" id="theme-toggle">🌓</button>
+  </nav>
+  <main class="container">
+    <h1>Wordl</h1>
+    <div class="card">
+      <div id="grid"></div>
+      <button id="submit" class="action-btn">Submit Guess</button>
+      <div id="keyboard"></div>
+      <div id="message" class="footer">Enter a 5-letter word</div>
+    </div>
+  </main>
+</body>
+</html>

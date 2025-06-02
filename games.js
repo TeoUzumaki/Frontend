@@ -1,5 +1,6 @@
 const games = [
-    { title: "Connections", url: "connections.html" }
+    { title: "Connections", url: "connections.html" },
+    { title: "Wordl", url: "wordl.html" }
 ];
 
 // === THEME MANAGEMENT ===

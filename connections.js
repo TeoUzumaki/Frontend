@@ -5,35 +5,35 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 const groups = [
   {
-    words: ['Effervescent', 'Resplendent', 'Opulent', 'Luminous'],
+    words: ['JOURNEY', 'ODYSSEY', 'QUEST', 'VOYAGE'],
     className: 'correct1'
   },
   {
-    words: ['Euphoria', 'Exhilaration', 'Rapture', 'Ecstasy'],
+    words: ['ESTEEM', 'PRIZE', 'TREASURE', 'VALUE'],
     className: 'correct2'
   },
   {
-    words: ['Sibilant', 'Susurrous', 'Mellifluous', 'Euphonious'],
+    words: ['MYRRH', 'NYMPH', 'RHYTHM', 'SPHYNX'],
     className: 'correct3'
   },
   {
-    words: ['Halcyon', 'Elysian', 'Utopian', 'Arcadian'],
+    words: ['FRANKINCENSE', 'JACKPOT', 'MARKDOWN', 'NICKNAME'],
     className: 'correct4'
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('Effervescent') && words.includes('Resplendent')) {
-    return 'Words Describing Radiant Beauty';
+  if (words.includes('JOURNEY') && words.includes('VOYAGE')) {
+    return 'Expedition';
   }
-  if (words.includes('Euphoria') && words.includes('Rapture')) {
-    return 'Words For Intense Happiness';
+  if (words.includes('ESTEEM') && words.includes('VALUE')) {
+    return 'Hold Dear';
   }
-  if (words.includes('Sibilant') && words.includes('Mellifluous')) {
-    return 'Terms For Pleasing Sounds';
+  if (words.includes('MYRRH') && words.includes('RHYTHM')) {
+    return 'Words whose only vowel is "Y"';
   }
-  if (words.includes('Halcyon') && words.includes('Utopian')) {
-    return 'Words For Idealistic Notions';
+  if (words.includes('FRANKINCENSE') && words.includes('NICKNAME')) {
+    return 'Names ending in "K" plus word';
   }
   return 'Unknown Group';
 }
