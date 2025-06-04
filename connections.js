@@ -5,35 +5,35 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 const groups = [
   {
-    words: ['JOURNEY', 'ODYSSEY', 'QUEST', 'VOYAGE'],
-    className: 'correct1'
+    words: ['BRIDGE', 'CHORUS', 'HOOK', 'REFRAIN'],
+    className: 'correct1' // Parts of a Song
   },
   {
-    words: ['ESTEEM', 'PRIZE', 'TREASURE', 'VALUE'],
-    className: 'correct2'
+    words: ['CHEER', 'CLAP', 'ROOT', 'WHISTLE'],
+    className: 'correct2' // Support Audibly
   },
   {
-    words: ['MYRRH', 'NYMPH', 'RHYTHM', 'SPHYNX'],
-    className: 'correct3'
+    words: ['BENCH', 'COAT RACK', 'CONSOLE', 'RUNNER'],
+    className: 'correct3' // Things in an Entryway
   },
   {
-    words: ['FRANKINCENSE', 'JACKPOT', 'MARKDOWN', 'NICKNAME'],
-    className: 'correct4'
+    words: ['APPLE', 'BOWLER', 'CLOUD', 'PIPE'],
+    className: 'correct4' // Imagery in Magritte Paintings
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('JOURNEY') && words.includes('VOYAGE')) {
-    return 'Expedition';
+  if (words.includes('BRIDGE') && words.includes('CHORUS')) {
+    return 'Parts of a Song';
   }
-  if (words.includes('ESTEEM') && words.includes('VALUE')) {
-    return 'Hold Dear';
+  if (words.includes('CHEER') && words.includes('CLAP')) {
+    return 'Support Audibly';
   }
-  if (words.includes('MYRRH') && words.includes('RHYTHM')) {
-    return 'Words whose only vowel is "Y"';
+  if (words.includes('BENCH') && words.includes('COAT RACK')) {
+    return 'Things in an Entryway';
   }
-  if (words.includes('FRANKINCENSE') && words.includes('NICKNAME')) {
-    return 'Names ending in "K" plus word';
+  if (words.includes('APPLE') && words.includes('BOWLER')) {
+    return 'Imagery in Magritte Paintings';
   }
   return 'Unknown Group';
 }
