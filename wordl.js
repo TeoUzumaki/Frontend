@@ -2,7 +2,7 @@
 let WORD_LIST = [];
 let VALID_WORDS = [];
 // === CHOOSE YOUR DAILY ANSWER HERE! (must be 5-letter UPPERCASE and in the txt file) ===
-let ANSWER = "CEASE";; // <-- Change this for your daily answer!
+let ANSWER = "REUSE";; // <-- Change this for your daily answer!
 
 let guesses = [];
 let currentGuess = "";
