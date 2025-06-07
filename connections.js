@@ -5,35 +5,35 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 const groups = [
   {
-    words: ['BRIDGE', 'CHORUS', 'HOOK', 'REFRAIN'],
-    className: 'correct1' // Parts of a Song
+    words: ['BREATHE', 'HYDRATE', 'REST', 'STRETCH'],
+    className: 'correct1' // Tips for Working Out Safely
   },
   {
-    words: ['CHEER', 'CLAP', 'ROOT', 'WHISTLE'],
-    className: 'correct2' // Support Audibly
+    words: ['FOUND', 'INSTITUTE', 'LAUNCH', 'START'],
+    className: 'correct2' // Establish
   },
   {
-    words: ['BENCH', 'COAT RACK', 'CONSOLE', 'RUNNER'],
-    className: 'correct3' // Things in an Entryway
+    words: ['AIR', 'NUMBER', 'SONG', 'STRAIN'],
+    className: 'correct3' // Ditty
   },
   {
-    words: ['APPLE', 'BOWLER', 'CLOUD', 'PIPE'],
-    className: 'correct4' // Imagery in Magritte Paintings
+    words: ['CHICKEN', 'EQUINOX', 'FLING', 'ONION'],
+    className: 'correct4' // Spring ___
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('BRIDGE') && words.includes('CHORUS')) {
-    return 'Parts of a Song';
+  if (words.includes('BREATHE') && words.includes('STRETCH')) {
+    return 'Tips for Working Out Safely';
   }
-  if (words.includes('CHEER') && words.includes('CLAP')) {
-    return 'Support Audibly';
+  if (words.includes('FOUND') && words.includes('LAUNCH')) {
+    return 'Establish';
   }
-  if (words.includes('BENCH') && words.includes('COAT RACK')) {
-    return 'Things in an Entryway';
+  if (words.includes('AIR') && words.includes('SONG')) {
+    return 'Ditty';
   }
-  if (words.includes('APPLE') && words.includes('BOWLER')) {
-    return 'Imagery in Magritte Paintings';
+  if (words.includes('CHICKEN') && words.includes('EQUINOX')) {
+    return 'Spring ___';
   }
   return 'Unknown Group';
 }
