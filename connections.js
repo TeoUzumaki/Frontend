@@ -5,35 +5,35 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 const groups = [
   {
-    words: ['BREATHE', 'HYDRATE', 'REST', 'STRETCH'],
-    className: 'correct1' // Tips for Working Out Safely
+    words: ['CHAIR', 'JUDGE', 'MEDIATE', 'MODERATE'],
+    className: 'correct1' // Yellow: Arbitrate
   },
   {
-    words: ['FOUND', 'INSTITUTE', 'LAUNCH', 'START'],
-    className: 'correct2' // Establish
+    words: ['CHART', 'IMAGE', 'TABLE', 'TEXT BOX'],
+    className: 'correct2' // Green: Things you can insert in a document
   },
   {
-    words: ['AIR', 'NUMBER', 'SONG', 'STRAIN'],
-    className: 'correct3' // Ditty
+    words: ['CHILL', 'PSYCH', 'RADICAL', 'WORD'],
+    className: 'correct3' // Blue: ’80s slang
   },
   {
-    words: ['CHICKEN', 'EQUINOX', 'FLING', 'ONION'],
-    className: 'correct4' // Spring ___
+    words: ['CIVIC', 'CUSTOMS', 'HEAVY', 'JURY'],
+    className: 'correct4' // Purple: __ Duty
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('BREATHE') && words.includes('STRETCH')) {
-    return 'Tips for Working Out Safely';
+  if (words.includes('CHAIR') && words.includes('MODERATE')) {
+    return 'Arbitrate';
   }
-  if (words.includes('FOUND') && words.includes('LAUNCH')) {
-    return 'Establish';
+  if (words.includes('CHART') && words.includes('TEXT BOX')) {
+    return 'Things You Can Insert In A Document';
   }
-  if (words.includes('AIR') && words.includes('SONG')) {
-    return 'Ditty';
+  if (words.includes('CHILL') && words.includes('RADICAL')) {
+    return '’80s Slang';
   }
-  if (words.includes('CHICKEN') && words.includes('EQUINOX')) {
-    return 'Spring ___';
+  if (words.includes('CIVIC') && words.includes('JURY')) {
+    return '__ Duty';
   }
   return 'Unknown Group';
 }
