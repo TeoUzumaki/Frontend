@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ----- Theme handling -----
-  const themeToggle = document.getElementById('theme-toggle'); // Optional: add to HTML if desired
+  // Optional theme toggle if you add a button with id 'theme-toggle'
+  /*
+  const themeToggle = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme') || 'default';
   setTheme(savedTheme);
 
@@ -19,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTheme(currentTheme === 'dark' ? 'default' : 'dark');
     });
   }
+  */
 
   // ----- URL Normalization helper -----
   function normalizeUrl(url) {
@@ -30,7 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
       normalized = 'http://' + normalized;
     }
 
-    normalized = normalized.replace(/\/+$/, '');
+    normalized = normalized.replace(/\/+$/, ''); // Remove trailing slashes
+    // lowercase domain only (optional)
+    // For simplicity, lowercase entire url here:
     normalized = normalized.toLowerCase();
 
     return normalized;
@@ -102,17 +107,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addLink(url) {
     const normUrl = normalizeUrl(url);
+    // Prevent duplicates
     if ([...list.children].some(li => normalizeUrl(li.querySelector('a').href) === normUrl)) return;
+
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url;
     a.textContent = url;
     a.target = '_blank';
     a.rel = "noopener noreferrer";
+
     const btn = document.createElement('button');
     btn.textContent = '🗑️';
     btn.className = 'delete-btn';
     btn.setAttribute('aria-label', 'Delete link');
+
     li.appendChild(a);
     li.appendChild(btn);
     list.appendChild(li);
@@ -145,3 +154,4 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 });
+
