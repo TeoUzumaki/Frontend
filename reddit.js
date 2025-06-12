@@ -20,6 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ----- URL Normalization helper -----
+  function normalizeUrl(url) {
+    let normalized = url.trim();
+
+    if (/^www\./i.test(normalized)) {
+      normalized = 'http://' + normalized;
+    } else if (!/^https?:\/\//i.test(normalized)) {
+      normalized = 'http://' + normalized;
+    }
+
+    normalized = normalized.replace(/\/+$/, '');
+    normalized = normalized.toLowerCase();
+
+    return normalized;
+  }
+
   // ----- App logic -----
   const form = document.getElementById('link-form');
   const input = document.getElementById('reddit-url');
@@ -46,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(links => {
         list.innerHTML = '';
         if (Array.isArray(links)) {
-          // Handle array of strings or array of objects
           links.forEach(link => {
             if (typeof link === "string") addLink(link);
             else if (link && typeof link.url === "string") addLink(link.url);
@@ -63,18 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const url = input.value.trim();
     if (!url) return;
+
+    const normalizedUrl = normalizeUrl(url);
+
     fetch(`${API_URL}/links`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url: normalizedUrl })
     })
       .then(res => {
         if (!res.ok) throw new Error('Failed to save link');
-        // For string responses or empty object, use the input url
-        addLink(url);
+        addLink(normalizedUrl);
         input.value = '';
       })
       .catch(err => {
@@ -84,9 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function addLink(url) {
-    // Avoid duplicates
-    const normUrl = url.replace(/\/+$/, '');
-    if ([...list.children].some(li => li.querySelector('a').href.replace(/\/+$/, '') === normUrl)) return;
+    const normUrl = normalizeUrl(url);
+    if ([...list.children].some(li => normalizeUrl(li.querySelector('a').href) === normUrl)) return;
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url;
@@ -102,11 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
     list.appendChild(li);
   }
 
-  // Efficient delete: one handler for the whole list
   list.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete-btn')) {
       const li = e.target.closest('li');
-      const url = li.querySelector('a').href;
+      const url = normalizeUrl(li.querySelector('a').href);
       deleteLink(url, li);
     }
   });
