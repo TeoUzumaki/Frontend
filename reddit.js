@@ -1,27 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ----- Theme handling -----
-  // Optional theme toggle if you add a button with id 'theme-toggle'
-  /*
-  const themeToggle = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('theme') || 'default';
-  setTheme(savedTheme);
-
-  function setTheme(theme) {
-    if (theme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
+  // ----- Theme handling (Reverted to original logic) -----
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
   }
 
+  const themeToggle = document.getElementById('theme-toggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'default';
-      setTheme(currentTheme === 'dark' ? 'default' : 'dark');
+      document.body.classList.toggle('dark');
+      const newTheme = document.body.classList.contains('dark') ? 'dark' : 'default';
+      localStorage.setItem('theme', newTheme);
     });
   }
-  */
 
   // ----- URL Normalization helper -----
   function normalizeUrl(url) {
@@ -33,9 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       normalized = 'http://' + normalized;
     }
 
-    normalized = normalized.replace(/\/+$/, ''); // Remove trailing slashes
-    // lowercase domain only (optional)
-    // For simplicity, lowercase entire url here:
+    normalized = normalized.replace(/\/+$/, '');
     normalized = normalized.toLowerCase();
 
     return normalized;
@@ -50,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!token) {
     alert('You must be logged in to see and add links.');
-    // window.location.href = "login.html"; // Uncomment if you want to redirect
     return;
   }
 
@@ -107,21 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addLink(url) {
     const normUrl = normalizeUrl(url);
-    // Prevent duplicates
     if ([...list.children].some(li => normalizeUrl(li.querySelector('a').href) === normUrl)) return;
-
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = url;
     a.textContent = url;
     a.target = '_blank';
     a.rel = "noopener noreferrer";
-
     const btn = document.createElement('button');
     btn.textContent = '🗑️';
     btn.className = 'delete-btn';
     btn.setAttribute('aria-label', 'Delete link');
-
     li.appendChild(a);
     li.appendChild(btn);
     list.appendChild(li);
@@ -154,4 +138,3 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 });
-
