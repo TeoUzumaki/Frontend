@@ -9,6 +9,14 @@
 </head>
 <body>
   <div class="wrapper">
+    <!-- Server status section -->
+    <div id="server-status" style="text-align: center; margin-bottom: 1rem; font-weight: bold; color: orange;">
+      🔄 Waking up server...
+    </div>
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <button onclick="checkServerStatus()" style="padding: 6px 12px;">🔁 Retry Server Check</button>
+    </div>
+
     <form id="loginForm">
       <h1>Login</h1>
       <div class="input-box">
@@ -32,18 +40,47 @@
       </div>
     </form>
   </div>
+
   <script>
+    const baseURL = 'https://my-node-backend-7qyb.onrender.com';
+    const statusDiv = document.getElementById("server-status");
+
+    async function checkServerStatus(retries = 5, delay = 1500) {
+      statusDiv.innerText = "🔄 Waking up server...";
+      statusDiv.style.color = "orange";
+
+      for (let i = 0; i < retries; i++) {
+        try {
+          const res = await fetch(`${baseURL}/health`, { cache: "no-store" });
+          if (res.ok) {
+            statusDiv.innerText = "✅ Login Server: Active";
+            statusDiv.style.color = "green";
+            return;
+          }
+        } catch (err) {
+          // Just wait and retry
+        }
+
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+
+      // After retries, if still no response
+      statusDiv.innerText = "❌ Login Server: Suspended";
+      statusDiv.style.color = "red";
+    }
+
+    // Run on page load
+    checkServerStatus();
+
     document.addEventListener("DOMContentLoaded", function () {
       const loginForm = document.getElementById("loginForm");
-  
+
       loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-  
+
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-  
-        const baseURL = 'https://my-node-backend-7qyb.onrender.com';
-  
+
         try {
           const response = await fetch(`${baseURL}/login`, {
             method: 'POST',
@@ -52,13 +89,13 @@
             },
             body: JSON.stringify({ username, password })
           });
-  
+
           if (!response.ok) {
             const errorData = await response.json();
             alert(errorData.message || "Invalid credentials");
             return;
           }
-  
+
           const data = await response.json();
           localStorage.setItem('token', data.token);
           window.location.href = 'dashboard.html';
@@ -70,5 +107,6 @@
     });
   </script>    
 </body>
+</html>
 </html>
 
