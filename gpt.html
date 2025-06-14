@@ -62,14 +62,19 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "default");
-      document.getElementById("themeToggle").addEventListener("click", () => {
+      // Load saved theme on page load
+      const savedTheme = localStorage.getItem("theme");
+      setTheme(savedTheme === "dark" ? "dark" : "default");
+
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
         const newTheme = document.body.classList.contains("dark") ? "default" : "dark";
         setTheme(newTheme);
       });
 
       document.getElementById("sendBtn").addEventListener("click", sendMessage);
-      checkServerStatus(); // Check on load
+
+      checkServerStatus(); // Initial server status check
     });
 
     async function sendMessage() {
