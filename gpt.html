@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPT Chatbot</title>
   <link rel="stylesheet" href="gpt.css" />
-  <script src="auth.js" defer></script> <!-- JWT auth check -->
+  <script src="auth.js" defer></script>
   <script src="gpt.js" defer></script>
+  <style>
+    .server-status {
+      font-size: 0.9rem;
+      margin-top: 6px;
+      color: #888;
+    }
+    .server-status.active { color: green; }
+    .server-status.waking { color: orange; }
+    .server-status.suspended { color: red; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -16,13 +26,15 @@
         <a href="dashboard.html" class="back-link">← Dashboard</a>
         <button id="themeToggle" class="theme-toggle" title="Toggle Theme">🌓</button>
       </div>
+      <div id="serverStatus" class="server-status waking">🔄 Checking server status...</div>
     </header>
+    
     <textarea id="prompt" rows="4" placeholder="Type your message..."></textarea>
     <button id="sendBtn">Send</button>
     <div id="response"></div>
   </div>
+
   <script>
-    // Theme Support (like your other pages)
     function setTheme(theme) {
       if (theme === "dark") {
         document.body.classList.add("dark");
@@ -31,17 +43,35 @@
       }
       localStorage.setItem("theme", theme);
     }
-    // On load, set theme from localStorage (default to light)
+
+    async function checkServerStatus() {
+      const statusEl = document.getElementById("serverStatus");
+      try {
+        const res = await fetch("https://gptbot-mohk.onrender.com/health", { cache: "no-store" });
+        if (res.ok) {
+          statusEl.textContent = "✅ Server Active";
+          statusEl.className = "server-status active";
+        } else {
+          statusEl.textContent = "⚠️ Server Suspended";
+          statusEl.className = "server-status suspended";
+        }
+      } catch (err) {
+        statusEl.textContent = "⚠️ Server Suspended";
+        statusEl.className = "server-status suspended";
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       setTheme(localStorage.getItem("theme") === "dark" ? "dark" : "default");
       document.getElementById("themeToggle").addEventListener("click", () => {
         const newTheme = document.body.classList.contains("dark") ? "default" : "dark";
         setTheme(newTheme);
       });
-      // Send button event
+
       document.getElementById("sendBtn").addEventListener("click", sendMessage);
+      checkServerStatus(); // Check on load
     });
-    // Chatbot logic
+
     async function sendMessage() {
       const prompt = document.getElementById('prompt').value;
       const responseBox = document.getElementById('response');
@@ -61,4 +91,3 @@
   </script>
 </body>
 </html>
-
