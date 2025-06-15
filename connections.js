@@ -32,7 +32,7 @@ function getGroupTitle(words) {
   if (words.includes('ACTION') && words.includes('NUDITY')) {
     return 'Considerations for Movie Ratings';
   }
-  if (words.includes('SODA') && words.includes('POP')) {
+  if (words.includes('BURST') && words.includes('SODA')) {
     return "What 'Pop' Might Mean";
   }
   return 'Unknown Group';
