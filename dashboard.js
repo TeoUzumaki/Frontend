@@ -13,14 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Pikachu button redirection
-    const pikachuBtn = document.getElementById("pikachuBtn");
-    if (pikachuBtn) {
-        pikachuBtn.addEventListener("click", () => {
-            window.location.href = "pika.html";
-        });
-    }
-
     // Game button redirection
     const gameBtn = document.getElementById("gameBtn");
     if (gameBtn) {
