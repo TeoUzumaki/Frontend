@@ -107,3 +107,43 @@
   .register-link p a:hover{
     text-decoration: underline;
   }
+  .server-status-container {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  }
+  .server-status {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Added color transition for smooth changes */
+  }
+  .server-status.active {
+  color: rgb(40, 44, 40);
+  background-color: #2c302df8;
+  }
+  .server-status.waking {
+  color: #e9e4e000;
+  background-color: #332f2f00;
+  }
+  .server-status.suspended {
+  color: #d32f2f;
+  background-color: #fdecea;
+  }
+  .retry-btn {
+  background-color: #ffffff;
+  color: #8a7d7d;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease;
+  }  
+  .retry-btn:hover {
+  background-color: #333;
+  }
