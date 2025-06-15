@@ -49,14 +49,14 @@
       try {
         const res = await fetch("https://gptbot-mohk.onrender.com/health", { cache: "no-store" });
         if (res.ok) {
-          statusEl.textContent = "✅ Server Active";
+          statusEl.textContent = "✅ Chatbot Active";
           statusEl.className = "server-status active";
         } else {
-          statusEl.textContent = "⚠️ Server Suspended";
+          statusEl.textContent = "⚠️ Chatbot Loading";
           statusEl.className = "server-status suspended";
         }
       } catch (err) {
-        statusEl.textContent = "⚠️ Server Suspended";
+        statusEl.textContent = "⚠️ Chatbot Loading";
         statusEl.className = "server-status suspended";
       }
     }
