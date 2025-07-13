@@ -5,35 +5,35 @@ const resultsContainer = document.getElementById('results');
 let selected = [];
 const groups = [
   {
-    words: ['BREW', 'JAVA', 'MUD', 'ROCKET FUEL'],
-    className: 'correct1' // 🟨 Slang for coffee
+    words: ['BURN', 'KNOCK', 'SLIGHT', 'ZING'],
+    className: 'correct1' // 🟨 Insult
   },
   {
-    words: ['BLAST', 'CRUD', 'CURSES', 'FUDGE'],
-    className: 'correct2' // 🟩 'Aw, heck!'
+    words: ['EXPIRATION', 'NAME', 'NUMBER', 'ZIP'],
+    className: 'correct2' // 🟩 Credit-Card Info
   },
   {
-    words: ['ACTION', 'LANGUAGE', 'NUDITY', 'SMOKING'],
-    className: 'correct3' // 🟦 Considerations for movie ratings
+    words: ['GLOSSY', 'MAG', 'RAG', 'ZINE'],
+    className: 'correct3' // 🟦 Slang for Printed Matter
   },
   {
-    words: ['BURST', 'FATHER', 'POPULAR', 'SODA'],
-    className: 'correct4' // 🟪 What 'pop' might mean
+    words: ['BUBBLY', 'CAB', 'CHARD', 'ZIN'],
+    className: 'correct4' // 🟪 Wine Nicknames
   }
 ];
 
 function getGroupTitle(words) {
-  if (words.includes('BREW') && words.includes('JAVA')) {
-    return 'Slang for Coffee';
+  if (words.includes('BURN') && words.includes('ZING')) {
+    return 'Insult';
   }
-  if (words.includes('BLAST') && words.includes('CRUD')) {
-    return "'Aw, heck!'";
+  if (words.includes('EXPIRATION') && words.includes('NUMBER')) {
+    return 'Credit-Card Info';
   }
-  if (words.includes('ACTION') && words.includes('NUDITY')) {
-    return 'Considerations for Movie Ratings';
+  if (words.includes('MAG') && words.includes('ZINE')) {
+    return 'Slang for Printed Matter';
   }
-  if (words.includes('BURST') && words.includes('SODA')) {
-    return "What 'Pop' Might Mean";
+  if (words.includes('CAB') && words.includes('ZIN')) {
+    return 'Wine Nicknames';
   }
   return 'Unknown Group';
 }
