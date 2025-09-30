@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Chatbot button redirection (NEW)
+    // Chatbot button redirection
     const chatbotBtn = document.getElementById("chatbotBtn");
     if (chatbotBtn) {
         chatbotBtn.addEventListener("click", () => {
@@ -37,10 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Top-right "Menu ▾" dropdown toggle
+    // Top-right dropdown toggle
     const dropdownToggle = document.getElementById("dropdownToggle");
     const dropdown = document.querySelector(".dropdown");
-
     if (dropdownToggle && dropdown) {
         dropdownToggle.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -56,10 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
         dropdown.addEventListener("click", (e) => e.stopPropagation());
     }
 
-    // Sidebar "Sections ▾" dropdown toggle
+    // Sidebar dropdown toggle
     const sidebarDropdownToggle = document.getElementById("sidebarDropdownToggle");
     const sidebarDropdown = document.querySelector(".sidebar-dropdown");
-
     if (sidebarDropdownToggle && sidebarDropdown) {
         sidebarDropdownToggle.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -74,7 +72,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         sidebarDropdown.addEventListener("click", (e) => e.stopPropagation());
     }
+
+    // === Flight countdown + Last Update auto-fill ===
+    const flightDate = new Date("2025-12-24"); // <-- set your flight date here (YYYY-MM-DD)
+    const today = new Date();
+
+    const flightEdtElement = document.getElementById("flightEdt");
+    const lastUpdateElement = document.getElementById("lastUpdate");
+
+    if (flightEdtElement) {
+        const diffTime = flightDate - today;
+        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        const flightDay = String(flightDate.getDate()).padStart(2, "0");
+        const flightMonth = String(flightDate.getMonth() + 1).padStart(2, "0");
+        const flightYear = flightDate.getFullYear();
+
+        flightEdtElement.textContent = daysLeft > 0
+            ? `${flightDay}/${flightMonth}/${flightYear} — ${daysLeft} days until flight`
+            : "Flight day!";
+    }
+
+    if (lastUpdateElement) {
+        const day = String(today.getDate()).padStart(2, "0");
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const year = today.getFullYear();
+        lastUpdateElement.textContent = `${day}/${month}/${year}`;
+    }
 });
+
 
 
 
