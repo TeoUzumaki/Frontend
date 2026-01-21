@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // === Flight countdown + Last Update auto-fill ===
-    const flightDate = new Date("2025-12-24"); // <-- set your flight date here (YYYY-MM-DD)
+    const flightDate = new Date("2026-06-19"); // <-- set your flight date here (YYYY-MM-DD)
     const today = new Date();
 
     const flightEdtElement = document.getElementById("flightEdt");
@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastUpdateElement.textContent = `${day}/${month}/${year}`;
     }
 });
+
 
 
 
