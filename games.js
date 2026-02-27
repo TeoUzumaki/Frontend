@@ -1,4 +1,5 @@
 const games = [
+    { title: "Princess Maggie", url: "Pmaggie.html" },
     { title: "Connections", url: "connections.html" },
     { title: "Wordle", url: "wordl.html" },
     { title: "2048", url: "2048-master/2048.html" }
@@ -48,4 +49,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     // Prevent closing when interacting inside the menu
     menu.addEventListener("click", e => e.stopPropagation());
+
 });
