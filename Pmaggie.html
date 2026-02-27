@@ -33,6 +33,83 @@ a.back-link:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 #a0005a;
 }
+#musicControls {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#musicBtn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #FFD700;
+  background: linear-gradient(135deg, #1e0a3c, #2d1060);
+  border: 2px solid #ff69b4;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #a0005a, 0 0 14px #ff69b455;
+  transition: transform 0.1s, box-shadow 0.1s;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+#musicBtn:hover {
+  background: linear-gradient(135deg, #2d1060, #3d1a80);
+  color: #fff;
+  box-shadow: 0 4px 0 #a0005a, 0 0 24px #ff69b477;
+}
+#musicBtn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #a0005a;
+}
+#volumeBox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #1e0a3c, #2d1060);
+  border: 2px solid #ff69b4;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 0 #a0005a, 0 0 14px #ff69b455;
+}
+#volumeIcon {
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+#volumeSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  border-radius: 4px;
+  background: #ff69b4;
+  outline: none;
+  cursor: pointer;
+}
+#volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFD700;
+  border: 2px solid #a0005a;
+  cursor: pointer;
+  box-shadow: 0 0 6px #ff69b4;
+}
+#volumeSlider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFD700;
+  border: 2px solid #a0005a;
+  cursor: pointer;
+  box-shadow: 0 0 6px #ff69b4;
+}
 body {
   background: #1a0a2e;
   display: flex;
@@ -178,6 +255,13 @@ canvas { display: block; }
 </head>
 <body>
 <a href="games.html" class="back-link">⚔️ ← Games</a>
+<div id="musicControls">
+  <button id="musicBtn" title="Toggle Music">🎵 Music</button>
+  <div id="volumeBox">
+    <span id="volumeIcon" title="Toggle mute">🔊</span>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50" title="Volume">
+  </div>
+</div>
 <div id="gameWrapper">
   <canvas id="c"></canvas>
 
@@ -1557,6 +1641,73 @@ function menuLoop() {
 document.getElementById('startBtn').addEventListener('click', startGame);
 menuLoop();
 gameLoop();
+
+// ── Music ──────────────────────────────────────────────────────────────────
+// 🎵 TO CHANGE THE SONG: edit the filename below to any MP3 in the same folder
+const MUSIC_FILE = 'Messyhair.mp3';
+
+const bgMusic = new Audio(MUSIC_FILE);
+bgMusic.loop = true;
+bgMusic.volume = 0.5;
+
+let musicOn = false;
+let musicStarted = false;
+
+function tryStartMusic() {
+  if (musicStarted) return;
+  bgMusic.play().then(() => {
+    musicStarted = true;
+    musicOn = true;
+    document.getElementById('musicBtn').textContent = '🎵 Music';
+  }).catch(() => {
+    // Autoplay blocked - user needs to interact first (handled by btn)
+  });
+}
+
+const musicBtn = document.getElementById('musicBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeIcon = document.getElementById('volumeIcon');
+
+function updateVolumeIcon() {
+  const v = bgMusic.volume;
+  if (bgMusic.muted || v === 0) volumeIcon.textContent = '🔇';
+  else if (v < 0.4) volumeIcon.textContent = '🔈';
+  else if (v < 0.7) volumeIcon.textContent = '🔉';
+  else volumeIcon.textContent = '🔊';
+}
+
+musicBtn.addEventListener('click', () => {
+  if (!musicStarted) {
+    bgMusic.play().then(() => {
+      musicStarted = true;
+      musicOn = true;
+      musicBtn.textContent = '🔇 Mute';
+    });
+  } else if (musicOn) {
+    bgMusic.pause();
+    musicOn = false;
+    musicBtn.textContent = '🎵 Music';
+  } else {
+    bgMusic.play();
+    musicOn = true;
+    musicBtn.textContent = '🔇 Mute';
+  }
+});
+
+volumeSlider.addEventListener('input', () => {
+  bgMusic.volume = volumeSlider.value / 100;
+  bgMusic.muted = false;
+  updateVolumeIcon();
+});
+
+volumeIcon.addEventListener('click', () => {
+  bgMusic.muted = !bgMusic.muted;
+  updateVolumeIcon();
+});
+
+// Try to autoplay when user first interacts with the page
+document.addEventListener('keydown', tryStartMusic, { once: true });
+document.addEventListener('click', tryStartMusic, { once: true });
 </script>
 </body>
 </html>
