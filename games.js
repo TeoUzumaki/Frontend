@@ -1,6 +1,6 @@
 const games = [
     { title: "Princess Maggie", url: "Pmaggie.html" },
-    { title: "Whack A Mole", url: "whack-a-mole.html" }
+    { title: "Whack A Mole", url: "whack-a-mole.html" },
     { title: "Connections", url: "connections.html" },
     { title: "Wordle", url: "wordl.html" },
     { title: "2048", url: "2048-master/2048.html" }
@@ -52,4 +52,5 @@ document.addEventListener("DOMContentLoaded", () => {
     menu.addEventListener("click", e => e.stopPropagation());
 
 });
+
 
