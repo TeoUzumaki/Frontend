@@ -50,7 +50,7 @@
     const baseURL = 'https://my-node-backend-7qyb.onrender.com';
     const statusDiv = document.getElementById("server-status");
 
-    async function checkServerStatus(retries = 5, delay = 1500) {
+    async function checkServerStatus(retries = 15, delay = 3000) {
       statusDiv.innerText = "🔄 Waking up server...";
       statusDiv.style.color = "orange";
 
