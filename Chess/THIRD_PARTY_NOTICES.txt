@@ -1,0 +1,13 @@
+THIRD-PARTY NOTICES
+
+Stockfish.js 19.0.1 (lite single-threaded WebAssembly build)
+Copyright and licensing: GNU General Public License, version 3.
+Source: https://github.com/nmrugg/stockfish.js
+The engine JavaScript and WASM binaries are fetched from the unmodified npm release at:
+https://cdn.jsdelivr.net/npm/stockfish@19.0.1/bin/
+
+chess.js 0.10.3
+BSD 2-Clause licence.
+Source: https://github.com/jhlywa/chess.js
+
+This project is an independent chess analysis interface and is not affiliated with Chess.com or the Stockfish developers.
