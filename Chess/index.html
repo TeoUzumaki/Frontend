@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,128 +7,648 @@
 <title>Next Best Chess Move</title>
 <style>
 :root{color-scheme:dark;--bg:#0c111b;--panel:#151e2b;--panel2:#1c2939;--line:#2b3b50;--text:#edf3fb;--muted:#9aabc0;--accent:#76d5b3;--gold:#f4c96b;--red:#f08080}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1a2a3d 0,#0c111b 56%);color:var(--text);font:15px/1.45 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
-.wrap{max-width:1160px;margin:0 auto;padding:28px 18px 48px}.head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:13px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#8ce4c3,#4cae9c);display:grid;place-items:center;color:#10251f;font-size:27px;font-weight:800;box-shadow:0 8px 30px #54c7a533}.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}.head h1{font-size:25px;line-height:1.1;margin:3px 0 0}.engine-pill{border:1px solid #345747;background:#143329;color:#a8f0d4;border-radius:999px;padding:7px 12px;font-size:12px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(320px,620px) minmax(290px,1fr);gap:20px;align-items:start}.panel{background:linear-gradient(180deg,#172333,#121b28);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 55px #0003}.board-panel{padding:16px}.board-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px}.turn{font-weight:700}.small{font-size:12px;color:var(--muted)}.board{width:100%;aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #26374b;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px #0005;touch-action:manipulation}.sq{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;cursor:pointer;min-width:0;aspect-ratio:1}.light{background:#e9dfc9}.dark{background:#78917f}.sq.selected{box-shadow:inset 0 0 0 5px #f5d66d}.sq.last{background-image:linear-gradient(#f5d66d55,#f5d66d55)}.sq.bestfrom{box-shadow:inset 0 0 0 4px #65d8ae}.sq.bestto{box-shadow:inset 0 0 0 5px #65d8ae;background-image:radial-gradient(circle,#65d8ae88 0 22%,transparent 24%)}.piece{font-family:"Segoe UI Symbol","DejaVu Sans",serif;font-size:clamp(28px,6.2vw,64px);line-height:1;user-select:none;filter:drop-shadow(0 2px 1px #0004)}.white-piece{color:#fffdf5;text-shadow:1px 1px 1px #25303b,-1px -1px 0 #394454,1px -1px 0 #394454,-1px 1px 0 #394454}.black-piece{color:#17202b;text-shadow:0 1px 0 #fff8}.coord{position:absolute;font-size:10px;font-weight:700;opacity:.75;pointer-events:none}.coord.file{right:4px;bottom:1px}.coord.rank{left:4px;top:1px}.light .coord{color:#526b5b}.dark .coord{color:#f3ead7}.board-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.btn{border:1px solid var(--line);background:#223247;color:var(--text);padding:9px 12px;border-radius:10px;font-weight:650;cursor:pointer}.btn:hover{border-color:#5b8198;background:#293d55}.btn.primary{background:var(--accent);border-color:var(--accent);color:#10251f}.btn:disabled{opacity:.45;cursor:not-allowed}.right{display:grid;gap:14px}.card{padding:16px}.card h2{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:#b8c9db;margin:0 0 12px}.engine-state{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px currentColor}.dot.ready{background:var(--accent)}.dot.bad{background:var(--red)}.best{margin-top:14px;padding:15px;border-radius:14px;background:linear-gradient(135deg,#18382f,#173044);border:1px solid #315b50}.best-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#a7d9c8}.best-move{font-size:32px;font-weight:800;letter-spacing:.02em;margin:3px 0}.best-meta{color:#b4cbbf;font-size:12px}.eval{display:flex;justify-content:space-between;align-items:center;margin-top:13px}.eval strong{font-size:22px}.eval small{color:var(--muted)}.meter{height:7px;background:#26364a;border-radius:9px;overflow:hidden;margin-top:9px}.meter>span{height:100%;display:block;width:50%;background:linear-gradient(90deg,#f4f0e5,#7bd9b7);transition:width .2s}.lines{display:grid;gap:8px}.line{padding:10px 11px;background:#1c2a3b;border:1px solid #293c52;border-radius:10px}.line-head{display:flex;justify-content:space-between;gap:8px;font-weight:700}.line-pv{font-size:12px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}.settings{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}.settings input{width:100%;accent-color:var(--accent)}.moves{max-height:230px;overflow:auto;display:grid;grid-template-columns:48px 1fr 1fr;gap:4px;font-variant-numeric:tabular-nums}.moves div{padding:5px 7px;border-radius:6px}.moves .num{color:var(--muted)}.moves .current{background:#254538;color:#b8f4dd}.field{width:100%;background:#0f1824;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px;font:12px ui-monospace,Consolas,monospace}.field:focus{outline:1px solid var(--accent);border-color:var(--accent)}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.note{color:var(--muted);font-size:12px;margin:9px 0 0}.promo{display:none;position:fixed;inset:0;background:#0009;z-index:10;place-items:center;padding:20px}.promo.show{display:grid}.promo-box{background:#192637;border:1px solid #466078;border-radius:16px;padding:20px;min-width:260px;box-shadow:0 20px 70px #0008}.promo-box h3{margin:0 0 14px}.promo-choices{display:flex;gap:8px}.promo-choices button{font-size:34px;flex:1;padding:8px;background:#26394f;border:1px solid #405771;border-radius:10px;cursor:pointer}.footer{color:#73859a;font-size:11px;text-align:center;margin-top:20px}.error{color:#ffaaa5;font-size:12px;min-height:18px;margin-top:8px}
-@media(max-width:820px){.layout{grid-template-columns:1fr}.wrap{padding:18px 12px 32px}.head h1{font-size:21px}.board-panel{padding:10px}.piece{font-size:clamp(30px,10vw,64px)}}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#1a2a3d 0,#0c111b 56%);color:var(--text);font:15px/1.45 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 18px 48px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#8ce4c3,#4cae9c);display:grid;place-items:center;color:#10251f;font-size:27px;font-weight:800;box-shadow:0 8px 30px #54c7a533}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.head h1{font-size:25px;line-height:1.1;margin:3px 0 0}
+.engine-pill{border:1px solid #345747;background:#143329;color:#a8f0d4;border-radius:999px;padding:7px 12px;font-size:12px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(320px,620px) minmax(290px,1fr);gap:20px;align-items:start}
+.panel{background:linear-gradient(180deg,#172333,#121b28);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 55px #0003}
+.board-panel{padding:16px}
+.board-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px}
+.turn{font-weight:700}
+.small{font-size:12px;color:var(--muted)}
+.board{width:100%;aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);border:5px solid #26374b;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px #0005;touch-action:manipulation}
+.sq{position:relative;border:0;border-radius:0;padding:0;display:grid;place-items:center;cursor:pointer;min-width:0;aspect-ratio:1}
+.light{background:#e9dfc9}
+.dark{background:#78917f}
+.sq.selected{box-shadow:inset 0 0 0 5px #f5d66d}
+.sq.last{background-image:linear-gradient(#f5d66d55,#f5d66d55)}
+.sq.bestfrom{box-shadow:inset 0 0 0 4px #65d8ae}
+.sq.bestto{box-shadow:inset 0 0 0 5px #65d8ae;background-image:radial-gradient(circle,#65d8ae88 0 22%,transparent 24%)}
+.piece{font-family:"Segoe UI Symbol","DejaVu Sans",serif;font-size:clamp(28px,6.2vw,64px);line-height:1;user-select:none;filter:drop-shadow(0 2px 1px #0004)}
+.white-piece{color:#fffdf5;text-shadow:1px 1px 1px #25303b,-1px -1px 0 #394454,1px -1px 0 #394454,-1px 1px 0 #394454}
+.black-piece{color:#17202b;text-shadow:0 1px 0 #fff8}
+.coord{position:absolute;font-size:10px;font-weight:700;opacity:.75;pointer-events:none}
+.coord.file{right:4px;bottom:1px}
+.coord.rank{left:4px;top:1px}
+.light .coord{color:#526b5b}
+.dark .coord{color:#f3ead7}
+.board-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn{border:1px solid var(--line);background:#223247;color:var(--text);padding:9px 12px;border-radius:10px;font-weight:650;cursor:pointer}
+.btn:hover{border-color:#5b8198;background:#293d55}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#10251f}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.right{display:grid;gap:14px}
+.card{padding:16px}
+.card h2{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:#b8c9db;margin:0 0 12px}
+.engine-state{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px currentColor}
+.dot.ready{background:var(--accent)}
+.dot.bad{background:var(--red)}
+.best{margin-top:14px;padding:15px;border-radius:14px;background:linear-gradient(135deg,#18382f,#173044);border:1px solid #315b50}
+.best-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#a7d9c8}
+.best-move{font-size:32px;font-weight:800;letter-spacing:.02em;margin:3px 0}
+.best-meta{color:#b4cbbf;font-size:12px}
+.eval{display:flex;justify-content:space-between;align-items:center;margin-top:13px}
+.eval strong{font-size:22px}
+.eval small{color:var(--muted)}
+.meter{height:7px;background:#26364a;border-radius:9px;overflow:hidden;margin-top:9px}
+.meter>span{height:100%;display:block;width:50%;background:linear-gradient(90deg,#f4f0e5,#7bd9b7);transition:width .2s}
+.lines{display:grid;gap:8px}
+.line{padding:10px 11px;background:#1c2a3b;border:1px solid #293c52;border-radius:10px}
+.line-head{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.line-pv{font-size:12px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.settings{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}
+.settings input{width:100%;accent-color:var(--accent)}
+.moves{max-height:230px;overflow:auto;display:grid;grid-template-columns:48px 1fr 1fr;gap:4px;font-variant-numeric:tabular-nums}
+.moves div{padding:5px 7px;border-radius:6px}
+.moves .num{color:var(--muted)}
+.moves .current{background:#254538;color:#b8f4dd}
+.field{width:100%;background:#0f1824;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px;font:12px ui-monospace,Consolas,monospace}
+.field:focus{outline:1px solid var(--accent);border-color:var(--accent)}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+.note{color:var(--muted);font-size:12px;margin:9px 0 0}
+.promo{display:none;position:fixed;inset:0;background:#0009;z-index:10;place-items:center;padding:20px}
+.promo.show{display:grid}
+.promo-box{background:#192637;border:1px solid #466078;border-radius:16px;padding:20px;min-width:260px;box-shadow:0 20px 70px #0008}
+.promo-box h3{margin:0 0 14px}
+.promo-choices{display:flex;gap:8px}
+.promo-choices button{font-size:34px;flex:1;padding:8px;background:#26394f;border:1px solid #405771;border-radius:10px;cursor:pointer}
+.footer{color:#73859a;font-size:11px;text-align:center;margin-top:20px}
+.error{color:#ffaaa5;font-size:12px;min-height:18px;margin-top:8px}
+@media(max-width:820px){
+.layout{grid-template-columns:1fr}
+.wrap{padding:18px 12px 32px}
+.head h1{font-size:21px}
+.board-panel{padding:10px}
+.piece{font-size:clamp(30px,10vw,64px)}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
- <header class="head">
-  <div class="brand"><div class="logo">♞</div><div><div class="eyebrow">Local chess analysis</div><h1>Next Best Chess Move</h1></div></div>
-  <div class="engine-pill">STOCKFISH 19 · WASM</div>
- </header>
- <main class="layout">
-  <section class="panel board-panel">
-   <div class="board-top"><div><div class="turn" id="turnLabel">White to move</div><div class="small" id="gameStatus">Starting position</div></div><div class="small" id="moveCount">Move 1</div></div>
-   <div class="board" id="board" aria-label="Interactive chessboard"></div>
-   <div class="board-controls">
-    <button class="btn" id="undoBtn">↶ Undo</button><button class="btn" id="newBtn">＋ New game</button><button class="btn" id="flipBtn">⇅ Flip board</button><button class="btn" id="playBestBtn" disabled>▶ Play best move</button>
-   </div>
-   <div class="error" id="boardError"></div>
-  </section>
-  <aside class="right">
-   <section class="panel card">
-    <h2>Engine recommendation</h2>
-    <div class="engine-state"><span class="dot" id="engineDot"></span><span id="engineStatus">Loading Stockfish engine…</span></div><button class="btn" id="retryEngineBtn" style="display:none;margin-top:9px">↻ Retry engine</button>
-    <div class="best">
-     <div class="best-label" id="bestLabel">Best move</div>
-     <div class="best-move" id="bestMove">—</div>
-     <div class="best-meta" id="bestMeta">Waiting for engine analysis</div>
-    </div>
-    <div class="eval"><div><small>Evaluation (White's perspective)</small><br><strong id="evalText">—</strong></div><div style="text-align:right"><small>Search depth</small><br><strong id="depthText">—</strong></div></div>
-    <div class="meter"><span id="evalMeter"></span></div>
-    <div class="note" id="bestExplanation">Make a move or load a position. The engine will analyse the side to move.</div>
-   </section>
-   <section class="panel card">
-    <h2>Top candidate lines</h2><div class="lines" id="lines"><div class="small">Engine lines will appear here.</div></div>
-   </section>
-   <section class="panel card">
-    <h2>Analysis strength</h2>
-    <div class="settings"><div><label for="depth">Search depth</label><div class="note">Higher depth usually takes longer and may find stronger moves.</div></div><strong id="depthValue">16</strong></div>
-    <input id="depth" type="range" min="10" max="24" value="16" step="1">
-    <div class="row" style="justify-content:space-between;margin-top:10px"><span class="small">Fast</span><span class="small">Deeper analysis</span></div>
-   </section>
-   <section class="panel card">
-    <h2>Move history</h2><div class="moves" id="moves"><div class="small">No moves yet.</div></div>
-   </section>
-   <section class="panel card">
-    <h2>Load or export a position</h2>
-    <textarea class="field" id="fenInput" rows="2" spellcheck="false" placeholder="Paste a FEN position here"></textarea>
-    <div class="row" style="margin-top:8px"><button class="btn" id="loadFenBtn">Load FEN</button><button class="btn" id="copyFenBtn">Copy FEN</button><button class="btn" id="copyPgnBtn">Copy PGN</button></div>
-    <textarea class="field" id="pgnInput" rows="2" style="margin-top:9px" spellcheck="false" placeholder="Optional: paste a PGN game here"></textarea>
-    <button class="btn" id="loadPgnBtn" style="margin-top:8px">Load PGN</button>
-    <div class="note">You can set up any legal position by pasting its FEN, or review a full game using PGN.</div>
-   </section>
-  </aside>
- </main>
- <div class="footer">Analysis runs in your browser. The position is analysed by Stockfish running locally in your browser. Analysis runs in your browser. The position is not sent to a chess account. Stockfish engine files are fetched from jsDelivr when needed.</div>
+<header class="head">
+<div class="brand"><div class="logo">♞</div><div><div class="eyebrow">Local chess analysis</div><h1>Next Best Chess Move</h1></div></div>
+<div class="engine-pill">STOCKFISH 19 · WASM</div>
+</header>
+
+<main class="layout">
+<section class="panel board-panel">
+<div class="board-top">
+<div><div class="turn" id="turnLabel">White to move</div><div class="small" id="gameStatus">Starting position</div></div>
+<div class="small" id="moveCount">Move 1</div>
 </div>
-<div class="promo" id="promoModal"><div class="promo-box"><h3>Choose promotion piece</h3><div class="promo-choices" id="promoChoices"></div></div></div>
+<div class="board" id="board" aria-label="Interactive chessboard"></div>
+<div class="board-controls">
+<button class="btn" id="undoBtn">↶ Undo</button>
+<button class="btn" id="newBtn">＋ New game</button>
+<button class="btn" id="flipBtn">⇅ Flip board</button>
+<button class="btn" id="playBestBtn" disabled>▶ Play best move</button>
+</div>
+<div class="error" id="boardError"></div>
+</section>
+
+<aside class="right">
+<section class="panel card">
+<h2>Engine recommendation</h2>
+<div class="engine-state"><span class="dot" id="engineDot"></span><span id="engineStatus">Loading Stockfish engine…</span></div>
+<button class="btn" id="retryEngineBtn" style="display:none;margin-top:9px">↻ Retry engine</button>
+<div class="best">
+<div class="best-label" id="bestLabel">Best move</div>
+<div class="best-move" id="bestMove">—</div>
+<div class="best-meta" id="bestMeta">Waiting for engine analysis</div>
+</div>
+<div class="eval"><div><small>Evaluation (White's perspective)</small><br><strong id="evalText">—</strong></div><div style="text-align:right"><small>Search depth</small><br><strong id="depthText">—</strong></div></div>
+<div class="meter"><span id="evalMeter"></span></div>
+<div class="note" id="bestExplanation">Make a move or load a position. The engine will analyse the side to move.</div>
+</section>
+
+<section class="panel card">
+<h2>Top candidate lines</h2>
+<div class="lines" id="lines"><div class="small">Engine lines will appear here.</div></div>
+</section>
+
+<section class="panel card">
+<h2>Analysis strength</h2>
+<div class="settings"><div><label for="depth">Search depth</label><div class="note">Higher depth usually takes longer and may find stronger moves.</div></div><strong id="depthValue">16</strong></div>
+<input id="depth" type="range" min="10" max="24" value="16" step="1">
+<div class="row" style="justify-content:space-between;margin-top:10px"><span class="small">Fast</span><span class="small">Deeper analysis</span></div>
+</section>
+
+<section class="panel card">
+<h2>Move history</h2>
+<div class="moves" id="moves"><div class="small">No moves yet.</div></div>
+</section>
+
+<section class="panel card">
+<h2>Load or export a position</h2>
+<textarea class="field" id="fenInput" rows="2" spellcheck="false" placeholder="Paste a FEN position here"></textarea>
+<div class="row" style="margin-top:8px">
+<button class="btn" id="loadFenBtn">Load FEN</button>
+<button class="btn" id="copyFenBtn">Copy FEN</button>
+<button class="btn" id="copyPgnBtn">Copy PGN</button>
+</div>
+<textarea class="field" id="pgnInput" rows="2" style="margin-top:9px" spellcheck="false" placeholder="Optional: paste a PGN game here"></textarea>
+<button class="btn" id="loadPgnBtn" style="margin-top:8px">Load PGN</button>
+<div class="note">You can set up any legal position by pasting its FEN, or review a full game using PGN.</div>
+</section>
+</aside>
+</main>
+
+<div class="footer">Analysis runs in your browser. Your position is not sent to a chess account. Stockfish is loaded from the engine files hosted on this website.</div>
+</div>
+
+<div class="promo" id="promoModal">
+<div class="promo-box"><h3>Choose promotion piece</h3><div class="promo-choices" id="promoChoices"></div></div>
+</div>
+
 <script src="./chess.min.js"></script>
 <script>
 (() => {
 'use strict';
+
 const $ = id => document.getElementById(id);
 const glyph = {wk:'♔',wq:'♕',wr:'♖',wb:'♗',wn:'♘',wp:'♙',bk:'♚',bq:'♛',br:'♜',bb:'♝',bn:'♞',bp:'♟'};
 const files='abcdefgh';
+
 let game = new Chess();
-let flipped=false, selected=null, legalTargets=[], lastMove=null, bestUci=null, bestSan=null, pendingPromotions=[], worker=null, engineReady=false, analysisDepth=16, currentFen='', lastDepth=0, lastLines={};
-function setEngineStatus(text,kind=''){ $('engineStatus').textContent=text; $('engineDot').className='dot '+kind; }
-function sqName(row,col){return files[col]+(8-row)}
-function pieceAt(square){const file=files.indexOf(square[0]),rank=Number(square[1]);const p=game.board()[8-rank][file];return p;}
-function boardSquares(){const el=$('board');el.innerHTML='';const board=game.board();for(let vr=0;vr<8;vr++){for(let vc=0;vc<8;vc++){const r=flipped?7-vr:vr,c=flipped?7-vc:vc,sq=sqName(r,c),p=board[r][c];const cell=document.createElement('button');cell.type='button';cell.className='sq '+(((r+c)%2===0)?'light':'dark');cell.dataset.square=sq;cell.setAttribute('aria-label',sq+(p?' '+(p.color==='w'?'white ':'black ')+p.type:''));if(selected===sq)cell.classList.add('selected');if(lastMove&&(lastMove.from===sq||lastMove.to===sq))cell.classList.add('last');if(bestUci&&bestUci.length>=4&&(bestUci.slice(0,2)===sq||bestUci.slice(2,4)===sq))cell.classList.add(bestUci.slice(0,2)===sq?'bestfrom':'bestto');if(p){const span=document.createElement('span');span.className='piece '+(p.color==='w'?'white-piece':'black-piece');span.textContent=glyph[p.color+p.type];cell.appendChild(span);}if(vr===7){const co=document.createElement('span');co.className='coord file';co.textContent=sq[0];cell.appendChild(co);}if(vc===0){const co=document.createElement('span');co.className='coord rank';co.textContent=sq[1];cell.appendChild(co);}cell.addEventListener('click',()=>onSquare(sq));el.appendChild(cell);}}}
-function updateHistory(){const h=game.history({verbose:true}),el=$('moves');el.innerHTML='';if(!h.length){el.innerHTML='<div class="small">No moves yet.</div>';return;}for(let i=0;i<h.length;i+=2){const n=document.createElement('div');n.className='num';n.textContent=(Math.floor(i/2)+1)+'.';const w=document.createElement('div');w.textContent=h[i].san;const b=document.createElement('div');b.textContent=h[i+1]?h[i+1].san:'';if(i===h.length-1)w.classList.add('current');if(i+1===h.length-1)b.classList.add('current');el.append(n,w,b);}el.scrollTop=el.scrollHeight;}
-function updateStatus(){const turn=game.turn()==='w'?'White':'Black';$('turnLabel').textContent=turn+' to move';let s='';if(game.in_checkmate())s='Checkmate';else if(game.in_stalemate())s='Draw · stalemate';else if(game.in_draw())s='Draw';else if(game.in_check())s='Check';else s=game.history().length?'Game in progress':'Starting position';$('gameStatus').textContent=s;$('moveCount').textContent='Move '+(game.fen().split(' ')[5] || '1');$('undoBtn').disabled=game.history().length===0;}
-function render(){const h=game.history({verbose:true});lastMove=h.length?{from:h[h.length-1].from,to:h[h.length-1].to}:null;boardSquares();updateHistory();updateStatus();$('fenInput').value=game.fen();}
-function onSquare(sq){$('boardError').textContent='';if(selected){const options=legalTargets.filter(m=>m.to===sq);if(options.length){if(options.length>1){showPromotion(options);return;}makeMove(options[0]);return;}}
- const p=pieceAt(sq);if(p&&p.color===game.turn()){selected=sq;legalTargets=game.moves({square:sq,verbose:true});boardSquares();return;}selected=null;legalTargets=[];boardSquares();}
-function makeMove(m){const result=game.move({from:m.from,to:m.to,promotion:m.promotion||'q'});selected=null;legalTargets=[];hidePromotion();if(!result){$('boardError').textContent='That move is not legal.';return;}bestUci=null;bestSan=null;lastLines={};render();clearRecommendation();analyse();}
-function showPromotion(options){pendingPromotions=options;$('promoChoices').innerHTML='';const p=game.turn();for(const type of ['q','r','b','n']){const b=document.createElement('button');b.textContent=glyph[p+type];b.title=({q:'Queen',r:'Rook',b:'Bishop',n:'Knight'})[type];b.addEventListener('click',()=>makeMove(options.find(m=>m.promotion===type)));$('promoChoices').appendChild(b);}$('promoModal').classList.add('show');}
-function hidePromotion(){$('promoModal').classList.remove('show');pendingPromotions=[];}
-function clearRecommendation(){$('bestMove').textContent='—';$('bestMeta').textContent='Analysing current position…';$('evalText').textContent='—';$('depthText').textContent='—';$('evalMeter').style.width='50%';$('lines').innerHTML='<div class="small">Calculating candidate moves…</div>';$('playBestBtn').disabled=true;$('bestExplanation').textContent='Stockfish is searching the current position.';}
-function parseUci(uci){return {from:uci.slice(0,2),to:uci.slice(2,4),promotion:uci[4]||undefined};}
-function uciToSanLine(fen,pv){const clone=new Chess(fen),out=[];for(const u of pv.split(/\s+/).slice(0,12)){if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(u))break;const m=parseUci(u);const made=clone.move(m);if(!made)break;out.push(made.san);}return out.join(' ');}
-function formatEval(score,turn){if(!score)return '—';let val=score.type==='mate'?'#'+score.value:(score.value/100).toFixed(2);if(score.type==='cp'){const white=turn==='w'?score.value:-score.value;return (white>0?'+':'')+(white/100).toFixed(2);}const whiteMate=turn==='w'?score.value:-score.value;return (whiteMate>0?'White mates in ':'Black mates in ')+Math.abs(whiteMate);}
-function updateEval(score,turn){if(!score)return;let whiteCp=score.type==='cp'?(turn==='w'?score.value:-score.value):0;$('evalText').textContent=formatEval(score,turn);const pct=score.type==='mate'?(score.value*(turn==='w'?1:-1)>0?96:4):Math.max(3,Math.min(97,50+whiteCp/22));$('evalMeter').style.width=pct+'%';}
-function renderLines(){const el=$('lines');el.innerHTML='';const ids=Object.keys(lastLines).map(Number).sort((a,b)=>a-b);if(!ids.length){el.innerHTML='<div class="small">Waiting for candidate lines…</div>';return;}for(const id of ids){const l=lastLines[id],box=document.createElement('div');box.className='line';const head=document.createElement('div');head.className='line-head';const move=document.createElement('span');move.textContent=l.firstSan||'—';const ev=document.createElement('span');ev.textContent=l.score?formatEval(l.score,currentFen.split(' ')[1]||'w'):'…';head.append(move,ev);const pv=document.createElement('div');pv.className='line-pv';pv.textContent=l.sanLine||'Calculating…';box.append(head,pv);el.appendChild(box);}}
-function handleEngineLine(line){if(line==='uciok'){worker.postMessage('setoption name Threads value 1');worker.postMessage('setoption name MultiPV value 3');worker.postMessage('isready');return;}if(line==='readyok'){engineReady=true;setEngineStatus('Engine ready','ready');analyse();return;}if(line.startsWith('info ')){const d=line.match(/\bdepth (\d+)/),mp=line.match(/\bmultipv (\d+)/),cp=line.match(/\bscore cp (-?\d+)/),mate=line.match(/\bscore mate (-?\d+)/),pv=line.match(/\bpv (.+)$/);if(!pv)return;const id=mp?Number(mp[1]):1,turn=currentFen.split(' ')[1]||'w',score=cp?{type:'cp',value:Number(cp[1])}:mate?{type:'mate',value:Number(mate[1])}:null,uci=pv[1].trim().split(/\s+/);const sanLine=uciToSanLine(currentFen,pv[1]);lastLines[id]={score,sanLine,firstSan:sanLine.split(' ')[0]||'',depth:d?Number(d[1]):0};if(d){lastDepth=Number(d[1]);$('depthText').textContent=lastDepth;}if(id===1)updateEval(score,turn);renderLines();return;}if(line.startsWith('bestmove ')){const u=line.split(/\s+/)[1];if(!u||u==='(none)'){bestUci=null;bestSan=null;$('bestMove').textContent='No legal move';$('bestMeta').textContent='The position is finished.';$('playBestBtn').disabled=true;return;}bestUci=u;const parsed=parseUci(u),clone=new Chess(currentFen),made=clone.move(parsed);bestSan=made?made.san:u;$('bestMove').textContent=bestSan;$('bestLabel').textContent=(currentFen.split(' ')[1]==='w'?'White':'Black')+' to move';$('bestMeta').textContent='UCI: '+u+' · '+(lastDepth||analysisDepth)+' ply depth';$('playBestBtn').disabled=false;$('bestExplanation').textContent='Best move found for the side to move. Select “Play best move” to apply it to the board.';boardSquares();}}
-function startEngine(){
- try{
-  if(worker){worker.terminate();worker=null;}
-  engineReady=false;bestUci=null;lastLines={};lastDepth=0;
-  $('retryEngineBtn').style.display='none';
-  setEngineStatus('Connecting to Stockfish in your browser…');
-  $('bestExplanation').textContent='Starting Stockfish in this browser tab. The engine files are downloaded from the pinned CDN release.';
-  worker=new Worker('./engine/stockfish-loader.js');
-  worker.onmessage=e=>handleEngineLine(typeof e.data==='string'?e.data:String(e.data));
-  worker.onerror=e=>{
-   engineReady=false;setEngineStatus('Engine failed to load','bad');
-   const detail=e.message||'The Stockfish browser worker could not start. Check your internet connection and that your website allows worker scripts.';
-   $('bestExplanation').textContent=detail+' Check your internet connection and reload the page. If the problem continues, check that the engine loader can access jsDelivr.';
-   $('retryEngineBtn').style.display='inline-block';
-  };
-  worker.onmessageerror=()=>{engineReady=false;setEngineStatus('Engine communication error','bad');$('bestExplanation').textContent='The browser could not read a message from Stockfish. Reload the page and try again.';$('retryEngineBtn').style.display='inline-block';};
-  setEngineStatus('Starting Stockfish…');
-  worker.postMessage('uci');
-  window.setTimeout(()=>{if(!engineReady&&worker){setEngineStatus('Engine did not respond','bad');$('bestExplanation').textContent='Stockfish did not respond. Reload the page. If it repeats, send me the message shown here.';$('retryEngineBtn').style.display='inline-block';}},20000);
- }catch(e){setEngineStatus('Engine unavailable','bad');$('bestExplanation').textContent=(e&&e.message?e.message:'The browser blocked the local engine worker.')+' Reload the page and try again.';$('retryEngineBtn').style.display='inline-block';}
+let flipped=false, selected=null, legalTargets=[], lastMove=null;
+let bestUci=null, bestSan=null, pendingPromotions=[];
+let worker=null, engineReady=false, analysisDepth=16;
+let currentFen='', lastDepth=0, lastLines={};
+
+function setEngineStatus(text,kind=''){
+$('engineStatus').textContent=text;
+$('engineDot').className='dot '+kind;
 }
+
+function sqName(row,col){return files[col]+(8-row);}
+
+function pieceAt(square){
+const file=files.indexOf(square[0]),rank=Number(square[1]);
+return game.board()[8-rank][file];
+}
+
+function boardSquares(){
+const el=$('board');
+el.innerHTML='';
+const board=game.board();
+
+for(let vr=0;vr<8;vr++){
+for(let vc=0;vc<8;vc++){
+const r=flipped?7-vr:vr,c=flipped?7-vc:vc;
+const sq=sqName(r,c),p=board[r][c];
+const cell=document.createElement('button');
+cell.type='button';
+cell.className='sq '+(((r+c)%2===0)?'light':'dark');
+cell.dataset.square=sq;
+cell.setAttribute('aria-label',sq+(p?' '+(p.color==='w'?'white ':'black ')+p.type:''));
+
+if(selected===sq)cell.classList.add('selected');
+if(lastMove&&(lastMove.from===sq||lastMove.to===sq))cell.classList.add('last');
+if(bestUci&&bestUci.length>=4&&(bestUci.slice(0,2)===sq||bestUci.slice(2,4)===sq)){
+cell.classList.add(bestUci.slice(0,2)===sq?'bestfrom':'bestto');
+}
+
+if(p){
+const span=document.createElement('span');
+span.className='piece '+(p.color==='w'?'white-piece':'black-piece');
+span.textContent=glyph[p.color+p.type];
+cell.appendChild(span);
+}
+
+if(vr===7){
+const co=document.createElement('span');
+co.className='coord file';
+co.textContent=sq[0];
+cell.appendChild(co);
+}
+if(vc===0){
+const co=document.createElement('span');
+co.className='coord rank';
+co.textContent=sq[1];
+cell.appendChild(co);
+}
+cell.addEventListener('click',()=>onSquare(sq));
+el.appendChild(cell);
+}
+}
+}
+
+function updateHistory(){
+const h=game.history({verbose:true}),el=$('moves');
+el.innerHTML='';
+if(!h.length){
+el.innerHTML='<div class="small">No moves yet.</div>';
+return;
+}
+for(let i=0;i<h.length;i+=2){
+const n=document.createElement('div');
+n.className='num';
+n.textContent=(Math.floor(i/2)+1)+'.';
+const w=document.createElement('div');
+w.textContent=h[i].san;
+const b=document.createElement('div');
+b.textContent=h[i+1]?h[i+1].san:'';
+if(i===h.length-1)w.classList.add('current');
+if(i+1===h.length-1)b.classList.add('current');
+el.append(n,w,b);
+}
+el.scrollTop=el.scrollHeight;
+}
+
+function updateStatus(){
+const turn=game.turn()==='w'?'White':'Black';
+$('turnLabel').textContent=turn+' to move';
+let s='';
+if(game.in_checkmate())s='Checkmate';
+else if(game.in_stalemate())s='Draw · stalemate';
+else if(game.in_draw())s='Draw';
+else if(game.in_check())s='Check';
+else s=game.history().length?'Game in progress':'Starting position';
+$('gameStatus').textContent=s;
+$('moveCount').textContent='Move '+(game.fen().split(' ')[5]||'1');
+$('undoBtn').disabled=game.history().length===0;
+}
+
+function render(){
+const h=game.history({verbose:true});
+lastMove=h.length?{from:h[h.length-1].from,to:h[h.length-1].to}:null;
+boardSquares();
+updateHistory();
+updateStatus();
+$('fenInput').value=game.fen();
+}
+
+function onSquare(sq){
+$('boardError').textContent='';
+if(selected){
+const options=legalTargets.filter(m=>m.to===sq);
+if(options.length){
+if(options.length>1){showPromotion(options);return;}
+makeMove(options[0]);
+return;
+}
+}
+const p=pieceAt(sq);
+if(p&&p.color===game.turn()){
+selected=sq;
+legalTargets=game.moves({square:sq,verbose:true});
+boardSquares();
+return;
+}
+selected=null;
+legalTargets=[];
+boardSquares();
+}
+
+function makeMove(m){
+const result=game.move({from:m.from,to:m.to,promotion:m.promotion||'q'});
+selected=null;
+legalTargets=[];
+hidePromotion();
+if(!result){
+$('boardError').textContent='That move is not legal.';
+return;
+}
+bestUci=null;
+bestSan=null;
+lastLines={};
+render();
+clearRecommendation();
+analyse();
+}
+
+function showPromotion(options){
+pendingPromotions=options;
+$('promoChoices').innerHTML='';
+const p=game.turn();
+for(const type of ['q','r','b','n']){
+const b=document.createElement('button');
+b.textContent=glyph[p+type];
+b.title=({q:'Queen',r:'Rook',b:'Bishop',n:'Knight'})[type];
+b.addEventListener('click',()=>makeMove(options.find(m=>m.promotion===type)));
+$('promoChoices').appendChild(b);
+}
+$('promoModal').classList.add('show');
+}
+
+function hidePromotion(){
+$('promoModal').classList.remove('show');
+pendingPromotions=[];
+}
+
+function clearRecommendation(){
+$('bestMove').textContent='—';
+$('bestMeta').textContent='Analysing current position…';
+$('evalText').textContent='—';
+$('depthText').textContent='—';
+$('evalMeter').style.width='50%';
+$('lines').innerHTML='<div class="small">Calculating candidate moves…</div>';
+$('playBestBtn').disabled=true;
+$('bestExplanation').textContent='Stockfish is searching the current position.';
+}
+
+function parseUci(uci){
+return {from:uci.slice(0,2),to:uci.slice(2,4),promotion:uci[4]||undefined};
+}
+
+function uciToSanLine(fen,pv){
+const clone=new Chess(fen),out=[];
+for(const u of pv.split(/\s+/).slice(0,12)){
+if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(u))break;
+const m=parseUci(u);
+const made=clone.move(m);
+if(!made)break;
+out.push(made.san);
+}
+return out.join(' ');
+}
+
+function formatEval(score,turn){
+if(!score)return '—';
+if(score.type==='mate'){
+const whiteMate=turn==='w'?score.value:-score.value;
+return (whiteMate>0?'White mates in ':'Black mates in ')+Math.abs(whiteMate);
+}
+const white=turn==='w'?score.value:-score.value;
+return (white>0?'+':'')+(white/100).toFixed(2);
+}
+
+function updateEval(score,turn){
+if(!score)return;
+let whiteCp=score.type==='cp'?(turn==='w'?score.value:-score.value):0;
+$('evalText').textContent=formatEval(score,turn);
+const pct=score.type==='mate'
+?(score.value*(turn==='w'?1:-1)>0?96:4)
+:Math.max(3,Math.min(97,50+whiteCp/22));
+$('evalMeter').style.width=pct+'%';
+}
+
+function renderLines(){
+const el=$('lines');
+el.innerHTML='';
+const ids=Object.keys(lastLines).map(Number).sort((a,b)=>a-b);
+if(!ids.length){
+el.innerHTML='<div class="small">Waiting for candidate lines…</div>';
+return;
+}
+for(const id of ids){
+const l=lastLines[id],box=document.createElement('div');
+box.className='line';
+const head=document.createElement('div');
+head.className='line-head';
+const move=document.createElement('span');
+move.textContent=l.firstSan||'—';
+const ev=document.createElement('span');
+ev.textContent=l.score?formatEval(l.score,currentFen.split(' ')[1]||'w'):'…';
+head.append(move,ev);
+const pv=document.createElement('div');
+pv.className='line-pv';
+pv.textContent=l.sanLine||'Calculating…';
+box.append(head,pv);
+el.appendChild(box);
+}
+}
+
+function handleEngineLine(line){
+if(line==='uciok'){
+worker.postMessage('setoption name Threads value 1');
+worker.postMessage('setoption name MultiPV value 3');
+worker.postMessage('isready');
+return;
+}
+
+if(line==='readyok'){
+engineReady=true;
+setEngineStatus('Engine ready','ready');
+analyse();
+return;
+}
+
+if(line.startsWith('info ')){
+const d=line.match(/\bdepth (\d+)/);
+const mp=line.match(/\bmultipv (\d+)/);
+const cp=line.match(/\bscore cp (-?\d+)/);
+const mate=line.match(/\bscore mate (-?\d+)/);
+const pv=line.match(/\bpv (.+)$/);
+if(!pv)return;
+
+const id=mp?Number(mp[1]):1;
+const turn=currentFen.split(' ')[1]||'w';
+const score=cp?{type:'cp',value:Number(cp[1])}:mate?{type:'mate',value:Number(mate[1])}:null;
+const sanLine=uciToSanLine(currentFen,pv[1]);
+lastLines[id]={score,sanLine,firstSan:sanLine.split(' ')[0]||'',depth:d?Number(d[1]):0};
+
+if(d){
+lastDepth=Number(d[1]);
+$('depthText').textContent=lastDepth;
+}
+if(id===1)updateEval(score,turn);
+renderLines();
+return;
+}
+
+if(line.startsWith('bestmove ')){
+const u=line.split(/\s+/)[1];
+if(!u||u==='(none)'){
+bestUci=null;
+bestSan=null;
+$('bestMove').textContent='No legal move';
+$('bestMeta').textContent='The position is finished.';
+$('playBestBtn').disabled=true;
+return;
+}
+bestUci=u;
+const parsed=parseUci(u);
+const clone=new Chess(currentFen);
+const made=clone.move(parsed);
+bestSan=made?made.san:u;
+$('bestMove').textContent=bestSan;
+$('bestLabel').textContent=(currentFen.split(' ')[1]==='w'?'White':'Black')+' to move';
+$('bestMeta').textContent='UCI: '+u+' · '+(lastDepth||analysisDepth)+' depth';
+$('playBestBtn').disabled=false;
+$('bestExplanation').textContent='Best move found for the side to move. Select “Play best move” to apply it to the board.';
+boardSquares();
+}
+}
+
+function startEngine(){
+try{
+if(worker){
+worker.terminate();
+worker=null;
+}
+
+engineReady=false;
+bestUci=null;
+lastLines={};
+lastDepth=0;
+$('retryEngineBtn').style.display='none';
+
+setEngineStatus('Loading local Stockfish…');
+$('bestExplanation').textContent='Starting the Stockfish engine hosted in this website.';
+
+worker=new Worker('./engine/stockfish-19-lite-single.js');
+
+worker.onmessage=e=>{
+handleEngineLine(typeof e.data==='string'?e.data:String(e.data));
+};
+
+worker.onerror=e=>{
+engineReady=false;
+setEngineStatus('Engine failed to load','bad');
+const detail=e.message||'The Stockfish worker could not start.';
+$('bestExplanation').textContent=detail+' Check that both Stockfish JS and WASM files are inside the Chess/engine folder, then refresh the page.';
+$('retryEngineBtn').style.display='inline-block';
+};
+
+worker.onmessageerror=()=>{
+engineReady=false;
+setEngineStatus('Engine communication error','bad');
+$('bestExplanation').textContent='The browser could not read a message from Stockfish. Check the engine files and refresh the page.';
+$('retryEngineBtn').style.display='inline-block';
+};
+
+worker.postMessage('uci');
+
+window.setTimeout(()=>{
+if(!engineReady&&worker){
+setEngineStatus('Engine did not respond','bad');
+$('bestExplanation').textContent='Stockfish did not respond. Check that the JS and WASM files are present in the engine folder and that both files are from the same release.';
+$('retryEngineBtn').style.display='inline-block';
+}
+},20000);
+
+}catch(e){
+setEngineStatus('Engine unavailable','bad');
+$('bestExplanation').textContent=(e&&e.message?e.message:'The browser blocked the Stockfish worker.')+' Check the engine folder and reload the page.';
+$('retryEngineBtn').style.display='inline-block';
+}
+}
+
+function analyse(){
+if(!engineReady||!worker)return;
+
+if(game.game_over()){
+bestUci=null;
+$('bestMove').textContent='Game finished';
+$('bestMeta').textContent='No move is available in this position.';
+$('playBestBtn').disabled=true;
+return;
+}
+
+worker.postMessage('stop');
+currentFen=game.fen();
+lastLines={};
+lastDepth=0;
+bestUci=null;
+bestSan=null;
+clearRecommendation();
+$('bestMeta').textContent='Searching depth '+analysisDepth+'…';
+worker.postMessage('position fen '+currentFen);
+worker.postMessage('go depth '+analysisDepth);
+}
+
 $('retryEngineBtn').addEventListener('click',startEngine);
-function analyse(){if(!engineReady||!worker)return;if(game.game_over()){bestUci=null;$('bestMove').textContent='Game finished';$('bestMeta').textContent='No move is available in this position.';$('playBestBtn').disabled=true;return;}worker.postMessage('stop');currentFen=game.fen();lastLines={};lastDepth=0;bestUci=null;bestSan=null;clearRecommendation();$('bestMeta').textContent='Searching depth '+analysisDepth+'…';worker.postMessage('position fen '+currentFen);worker.postMessage('go depth '+analysisDepth);}
-$('undoBtn').addEventListener('click',()=>{if(game.undo()){selected=null;legalTargets=[];bestUci=null;render();clearRecommendation();analyse();}});
-$('newBtn').addEventListener('click',()=>{game.reset();selected=null;legalTargets=[];bestUci=null;bestSan=null;render();clearRecommendation();analyse();});
-$('flipBtn').addEventListener('click',()=>{flipped=!flipped;boardSquares();});
-$('playBestBtn').addEventListener('click',()=>{if(bestUci){const m=parseUci(bestUci);makeMove(m);}});
-$('depth').addEventListener('input',e=>{$('depthValue').textContent=e.target.value;analysisDepth=Number(e.target.value);});
+
+$('undoBtn').addEventListener('click',()=>{
+if(game.undo()){
+selected=null;
+legalTargets=[];
+bestUci=null;
+render();
+clearRecommendation();
+analyse();
+}
+});
+
+$('newBtn').addEventListener('click',()=>{
+game.reset();
+selected=null;
+legalTargets=[];
+bestUci=null;
+bestSan=null;
+render();
+clearRecommendation();
+analyse();
+});
+
+$('flipBtn').addEventListener('click',()=>{
+flipped=!flipped;
+boardSquares();
+});
+
+$('playBestBtn').addEventListener('click',()=>{
+if(bestUci){
+const m=parseUci(bestUci);
+makeMove(m);
+}
+});
+
+$('depth').addEventListener('input',e=>{
+$('depthValue').textContent=e.target.value;
+analysisDepth=Number(e.target.value);
+});
+
 $('depth').addEventListener('change',()=>analyse());
-$('loadFenBtn').addEventListener('click',()=>{const fen=$('fenInput').value.trim();const next=new Chess();if(!next.load(fen)){$('boardError').textContent='Invalid FEN. Check the position text and try again.';return;}game=next;selected=null;legalTargets=[];bestUci=null;render();clearRecommendation();analyse();});
+
+$('loadFenBtn').addEventListener('click',()=>{
+const fen=$('fenInput').value.trim();
+const next=new Chess();
+if(!next.load(fen)){
+$('boardError').textContent='Invalid FEN. Check the position text and try again.';
+return;
+}
+game=next;
+selected=null;
+legalTargets=[];
+bestUci=null;
+render();
+clearRecommendation();
+analyse();
+});
+
 $('copyFenBtn').addEventListener('click',async()=>copyText(game.fen(),'FEN copied.'));
 $('copyPgnBtn').addEventListener('click',async()=>copyText(game.pgn(),'PGN copied.'));
-$('loadPgnBtn').addEventListener('click',()=>{const pgn=$('pgnInput').value.trim(),next=new Chess();if(!pgn||!next.load_pgn(pgn)){ $('boardError').textContent='Could not read that PGN.';return;}game=next;selected=null;legalTargets=[];bestUci=null;render();clearRecommendation();analyse();});
-async function copyText(text,msg){try{await navigator.clipboard.writeText(text);$('boardError').textContent=msg;}catch(e){$('boardError').textContent='Clipboard permission was blocked by the browser.';}}
-$('promoModal').addEventListener('click',e=>{if(e.target===$('promoModal'))hidePromotion();});
-render();startEngine();
+
+$('loadPgnBtn').addEventListener('click',()=>{
+const pgn=$('pgnInput').value.trim();
+const next=new Chess();
+if(!pgn||!next.load_pgn(pgn)){
+$('boardError').textContent='Could not read that PGN.';
+return;
+}
+game=next;
+selected=null;
+legalTargets=[];
+bestUci=null;
+render();
+clearRecommendation();
+analyse();
+});
+
+async function copyText(text,msg){
+try{
+await navigator.clipboard.writeText(text);
+$('boardError').textContent=msg;
+}catch(e){
+$('boardError').textContent='Clipboard permission was blocked by the browser.';
+}
+}
+
+$('promoModal').addEventListener('click',e=>{
+if(e.target===$('promoModal'))hidePromotion();
+});
+
+render();
+startEngine();
 })();
 </script>
 </body>
